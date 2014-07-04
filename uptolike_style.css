@@ -1,0 +1,22 @@
+
+
+.id_number {
+    width: 520px;
+}
+
+h2.placeholder {
+    font-size: 1px;
+    padding: 1px;
+    margin: 0px;
+    height: 2px;
+}
+
+div.wrapper-tab {
+    display: none;
+}
+
+div.wrapper-tab.active {
+    display: block;
+    width: 100%;
+}
+
