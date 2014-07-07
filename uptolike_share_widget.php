@@ -1,8 +1,8 @@
 <?
 /*
-Plugin Name: UpToLike 
+Plugin Name: UpToLike Share Buttons
 Plugin URI: http://uptolike.ru/
-Description: UpToLike shares plugin gives your site ability to increase visitors count by placing choiced to by you social share button from most popular social networks and interesting page changing sites
+Description: Uptolike Share Buttons - social bookmarking widget with sharing statistics.
 Version: 1.2
 Author URI: http://uptolike.ru/
 */
