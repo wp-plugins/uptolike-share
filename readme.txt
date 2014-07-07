@@ -65,10 +65,9 @@ UpToLike is compatible with 25 popular social networking sites. It supports the 
 Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 
 == Screenshots ==
-
-1. screenshot-1.png
-2. screenshot-2.png
-3. screenshot-3.png
+1. customizing sharing buttons
+2. buttons appearance
+3. traffic and sharing statistics
 
 == Changelog ==
 
