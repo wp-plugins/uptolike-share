@@ -4,8 +4,8 @@
 
 var onmessage = function (e) {
     if ('ready' == e.data.action ){
-            json = jQuery('input#uptolike_json').val();
-            initConstr(json);
+        json = jQuery('input#uptolike_json').val();
+        initConstr(json);
     }
     if (('json' in e.data) && ('code' in e.data)) {
         $('input#uptolike_json').val(e.data.json);
@@ -30,7 +30,7 @@ var getCode = function () {
     win.postMessage({action: 'getCode'}, "*");
 };
 function initConstr(jsonStr) {
-     var win = document.getElementById("cons_iframe").contentWindow;
+    var win = document.getElementById("cons_iframe").contentWindow;
     if ('' !== jsonStr) {
         win.postMessage({action: 'initialize', json: jsonStr}, "*");
     }
@@ -39,7 +39,10 @@ function initConstr(jsonStr) {
 
 
 function regMe(my_mail) {
-    str = jQuery.param({ email: my_mail, partner: 'cms', projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\./g, '')})
+    str = jQuery.param({ email: my_mail,
+                        partner: 'cms',
+                        projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
+                        url:document.location.host.replace( new RegExp("^www.","gim"),"")})
     dataURL = "http://uptolike.com/api/getCryptKeyWithUserReg.json";
     jQuery.getJSON(dataURL + "?" + str + "&callback=?", {}, function (result) {
         var jsonString = JSON.stringify(result);

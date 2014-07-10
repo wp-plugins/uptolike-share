@@ -106,6 +106,7 @@ class MySettingsPage
         $partnerId = 'cms';
         $projectId = 'cms' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
         $projectId = str_replace('.','',$projectId);
+        $projectId = str_replace('-','',$projectId);
         $options = get_option('my_option_name');
         if (is_array($options) && array_key_exists('id_number', $options)) {
             $cryptKey = $options['id_number'];
@@ -162,13 +163,13 @@ class MySettingsPage
                     <div class="wrapper-tab" id="con_stat">
                         <? if (('' == $partnerId) OR ('' == $email) OR ('' == $cryptKey)) {
 
-                        ?>
-                        <h2>Статистика</h2>
-                        <p>Для просмотра статистики необходимо ввести ваш секретный ключ </p>
+                            ?>
+                            <h2>Статистика</h2>
+                            <p>Для просмотра статистики необходимо ввести ваш секретный ключ </p>
                         <? } else { ?>
                             <!-- <?php print_r(array($partnerId,$email, $cryptKey)); ?> -->
                             <iframe style="width: 100%;height: 380px;" id="stats_iframe" data-src="<?php echo $this->statIframe($projectId, $partnerId, $email, $cryptKey); ?>">
-                        </iframe> <?
+                            </iframe> <?
                         } ?>
                         <button class="reg_btn" type="button">Запросить секретный ключ</button><br/>
                         <div class="reg_block">
@@ -280,7 +281,7 @@ class MySettingsPage
             $new_input['before_content'] = $input['before_content'];
 
         if (isset($input['on_main'])) {
-                $new_input['on_main'] = true;
+            $new_input['on_main'] = true;
 
         } else  $new_input['on_main'] = false;
 
