@@ -153,7 +153,7 @@ function usb_admin_page()
                     </div>
                 </div>
 
-                <div class="wrapper-tab" id="con_settings">
+                <div class="wrapper-tab " id="con_settings">
                     <input type="hidden" name="option_page" value="my_option_group"><input type="hidden" name="action"
                                                                                            value="update"><input
                         type="hidden" id="_wpnonce" name="_wpnonce" value="cac4f73a65"><input type="hidden"
