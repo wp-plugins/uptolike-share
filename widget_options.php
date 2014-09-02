@@ -251,6 +251,16 @@ class MySettingsPage
             $this->settings_page_name, //'my-setting-admin',
             'setting_section_id'
         );
+
+        add_settings_field(
+            'feedback', //ID
+            'Обратная связь',
+            array($this, 'uptolike_feedback_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );
+
+
         add_settings_field(
             'uptolike_json', //ID
             'настройки конструктора',
@@ -269,7 +279,7 @@ class MySettingsPage
     {
         $new_input = array();
         if (isset($input['id_number']))
-            $new_input['id_number'] = $input['id_number'];
+            $new_input['id_number'] = str_replace(' ','',$input['id_number']);
 
         if (isset($input['widget_code']))
             $new_input['widget_code'] = $input['widget_code'];
@@ -347,6 +357,11 @@ class MySettingsPage
             '<input type="text" id="uptolike_partner" name="my_option_name[uptolike_partner]" value="%s" />',
             isset($this->options['uptolike_partner']) ? esc_attr($this->options['uptolike_partner']) : ''
         );
+    }
+
+    public function uptolike_feedback_callback()
+    {
+        echo '<a href="mailto:support@uptolike.com" target="_top"> support@uptolike.com</a>';
     }
 
     public function uptolike_project_callback()
@@ -544,8 +559,50 @@ function choice_helper($choice)
     update_option('my_option_name', $options);
 }
 
+/*function usb_admin_bar() {
+    global $wp_admin_bar;
+
+    echo 'run usb admin bar';
+    //Add a link called at the top admin bar
+    $wp_admin_bar->add_node(array(
+        'id'    => 'UpToLike',
+        'title' => 'UpToLike',
+        'href'  => admin_url( 'options-general.php?page=uptolike_settings', 'http' )
+    ));
+
+}
+*/
+
+function usb_admin_actions()
+{
+    //echo 'run usb_admin_actions';
+    if ( current_user_can('manage_options') ) {
+        if (function_exists('add_meta_box')) {
+           add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page', 'http://uptolike.com/favicon.ico');
+        } else {
+           // add_submenu_page("index.php", "UpToLike", "UpToLike", "manage_options", "UpToLike", "uptolike_settings", 'http://uptolike.com/favicon.ico');
+        } // end if addmeta box
+        if (get_option( OPTION_NAME_ENABLE_ADMIN_MENU, 'false' ) == 'true' ){
+            add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
+        }
+
+        //wpo_detectDBType();
+        //wpo_PluginOptionsSetDefaults();
+        //wpo_cron_activate();
+    }
+}
+
+function my_custom_menu_page(){
+    include_once( 'usb-admin.php' );
+}
+
+register_activation_hook(__FILE__,'usb_admin_actions');
+register_deactivation_hook(__FILE__,'usb_admin_actions_remove');
+
 add_action('admin_notices', 'my_choice_notice');
 add_action('admin_notices', 'my_widgetcode_notice');
+add_action('admin_menu', 'usb_admin_actions');
+//add_action( 'wp_before_admin_bar_render', 'wpo_admin_bar' );
 
 $options = get_option('my_option_name');
 
