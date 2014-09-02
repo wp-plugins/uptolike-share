@@ -1,11 +1,9 @@
 === Uptolike Share Buttons ===
 Contributors: na1vez
-Tags: +1, AddThis, social buttons, bookmark, bookmarking, like, share, share button, sharing, social bookmarking, social bookmarks, social buttons
+Tags: +1, UpToLike, AddThis, social buttons, bookmark, bookmarking, like, share, share button, sharing, social bookmarking, social bookmarks, social buttons
 Requires at least: 3.0.1
-Tested up to: 3.9.1
+Tested up to: 3.9.2
 Stable tag: 1.2.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Uptolike Share Buttons - social bookmarking widget with sharing statistics.
 
@@ -50,10 +48,11 @@ UpToLike is compatible with 25 popular social networking sites. It supports the 
 * Separation of traffic on social networks
 * Per-page site activity: how many Likes and Shares for each individual page, and how many new visitors came to each page
 
+
 == Installation ==
 1. Go to Plugins -> Add New
 2. Search for Uptolike
-3. Install the plugin called \"Uptolike Share Buttons\" and activate it
+3. Install the plugin called \\\"Uptolike Share Buttons\\\" and activate it
 4. Adjust your settings
 5. Request and fill the secret key field, if you want to receive the statistics
 6. Enjoy!
@@ -80,4 +79,3 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 
 = 1.0.0 =
 * Initial release
-
