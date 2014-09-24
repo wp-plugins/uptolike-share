@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 18.08.14
- * Time: 12:15
- */
 function constructorIframe($projectId, $partnerId, $mail, $cryptKey)
 {
 
