@@ -291,9 +291,8 @@ class MySettingsPage
             $new_input['before_content'] = $input['before_content'];
 
         if (isset($input['on_main'])) {
-            $new_input['on_main'] = true;
-
-        } else  $new_input['on_main'] = false;
+            $new_input['on_main'] = 1;
+        } else $new_input['on_main'] = 0;
 
         if (isset($input['email']))
             $new_input['email'] = $input['email'];
@@ -375,7 +374,7 @@ class MySettingsPage
     public function uptolike_on_main_callback()
     {
         echo '<input type="checkbox" id="on_main" name="my_option_name[on_main]"';
-        echo ($this->options['on_main'] == true ? 'checked="checked"' : ''); echo '  />';
+        echo ($this->options['on_main'] == '1' ? 'checked="checked"' : ''); echo '  />';
 
     }
 
@@ -413,7 +412,9 @@ class MySettingsPage
 
 function add_widget($content)
 {
-
+    //print_r($options = get_option('my_option_name'));
+    //return $content;
+    
     $options = get_option('my_option_name');
     if (is_array($options) && array_key_exists('widget_code', $options)) {
         $widget_code = $options['widget_code'];
@@ -428,20 +429,43 @@ function add_widget($content)
         $widget_code = str_replace('div data', 'div data-url="' . $url . '" data', $widget_code);
         $widget_code_before = $widget_code_after = '';
 
-        if ((!is_single() && array_key_exists('on_main', $options) && $options['on_main']) or is_single()) {
+        /*if ((!is_single() && array_key_exists('on_main', $options) && ($options['on_main'] == 1 )) or is_single()) {
             switch ($options['widget_position']) {
                 case 'both':
-                    $widget_code_before = $widget_code_after = $widget_code;
+                    return $widget_code.$content.$widget_code;//$widget_code_before = $widget_code_after = $widget_code;
                     break;
                 case 'top':
-                    $widget_code_before = $widget_code;
+                    return $widget_code.$content; //$widget_code_before = $widget_code;
                     break;
                 case 'bottom':
-                    $widget_code_after = $widget_code;
+                    return $content.$widget_code; //$widget_code_after = $widget_code;
                     break;
             }
             return $widget_code_before.$content.$widget_code_after;
         }
+        */
+        if(!is_single()) {
+            if ($options['on_main'] == 1 ) {
+                 switch ($options['widget_position']) {
+                case 'both':
+                    return $widget_code.$content.$widget_code;
+                case 'top':
+                    return $widget_code.$content; 
+                case 'bottom':
+                    return $content.$widget_code; 
+                }
+            }    
+            else return $content;
+        } else {
+             switch ($options['widget_position']) {
+                case 'both':
+                    return $widget_code.$content.$widget_code;
+                case 'top':
+                    return $widget_code.$content; 
+                case 'bottom':
+                    return $content.$widget_code; 
+                }
+        }; 
     } else {
         return $content;
     }
@@ -463,8 +487,8 @@ function my_widgetcode_notice()
         $widget_code = $options['widget_code'];
         if ('' == $widget_code) {
             echo " <div class='updated'>
-	                 <p>В настройках UpToLike 'Конструктор' выберите тип виджета и нажмите 'Сохранить'</p>
-	          </div>";
+                     <p>В настройках UpToLike 'Конструктор' выберите тип виджета и нажмите 'Сохранить'</p>
+              </div>";
         }
     };
 }
@@ -543,7 +567,7 @@ EOD;
 
     $code = str_replace('data-url', 'data-url="' . $data_url . '"', $code);
     $options['widget_code'] = $code;
-    $options['on_main'] = true;
+    $options['on_main'] = 1;
     $options['widget_position'] = 'bottom';
 
     update_option('my_option_name', $options);
