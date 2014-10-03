@@ -10,8 +10,8 @@ function constructorIframe($projectId, $partnerId, $mail, $cryptKey)
     $signature = md5($paramsStr);
     $params['signature'] = $signature;
     if ('' !== $cryptKey) {
-        $finalUrl = 'http://uptolike.com/api/constructor.html?' . http_build_query($params);
-    } else $finalUrl = 'http://uptolike.com/api/constructor.html';
+        $finalUrl = 'https://uptolike.com/api/constructor.html?' . http_build_query($params);
+    } else $finalUrl = 'https://uptolike.com/api/constructor.html';
 
 
     return $finalUrl;
@@ -28,7 +28,7 @@ function statIframe($projectId, $partnerId, $mail, $cryptKey)
     $paramsStr = 'mail=' . $mail . '&partner=' . $partnerId . '&projectId=' . $projectId;
     $signature = md5($paramsStr . $cryptKey);
     $params['signature'] = $signature;
-    $finalUrl = 'http://uptolike.com/api/statistics.html?' . http_build_query($params);
+    $finalUrl = 'https://uptolike.com/api/statistics.html?' . http_build_query($params);
 
     return $finalUrl;
 }
@@ -176,6 +176,11 @@ function usb_admin_page()
                         <tr>
                             <th scope="row">Располагать блок на главной странице</th>
                             <td><input type="checkbox" id="on_main" name="my_option_name[on_main]" checked="checked">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Располагать блок на статических страницах</th>
+                            <td><input type="checkbox" id="on_page" name="my_option_name[on_page]" checked="checked">
                             </td>
                         </tr>
                         <tr>

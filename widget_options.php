@@ -43,7 +43,7 @@ class MySettingsPage
         $paramsStr = 'mail=' . $mail . '&partner=' . $partnerId. '&projectId=' . $projectId;
         $signature = md5($paramsStr . $cryptKey);
         $params['signature'] = $signature;
-        $finalUrl = 'http://uptolike.com/api/statistics.html?' . http_build_query($params);
+        $finalUrl = 'https://uptolike.com/api/statistics.html?' . http_build_query($params);
 
         return $finalUrl;
     }
@@ -66,8 +66,8 @@ class MySettingsPage
         $signature = md5($paramsStr);
         $params['signature'] = $signature;
         if ('' !== $cryptKey) {
-            $finalUrl = 'http://uptolike.com/api/constructor.html?' . http_build_query($params);
-        } else $finalUrl = 'http://uptolike.com/api/constructor.html';
+            $finalUrl = 'https://uptolike.com/api/constructor.html?' . http_build_query($params);
+        } else $finalUrl = 'https://uptolike.com/api/constructor.html';
 
 
         return $finalUrl;
@@ -238,8 +238,16 @@ class MySettingsPage
 
         add_settings_field(
             'on_main', //ID
-            'Располагать блок на главной странице',
+            'Располагать блок11 на главной странице',
             array($this, 'uptolike_on_main_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );
+
+         add_settings_field(
+            'on_page', //ID
+            'Располагать блок на статических страницах',
+            array($this, 'uptolike_on_page_callback'),
             $this->settings_page_name, //'my-setting-admin',
             'setting_section_id'
         );
@@ -293,6 +301,10 @@ class MySettingsPage
         if (isset($input['on_main'])) {
             $new_input['on_main'] = 1;
         } else $new_input['on_main'] = 0;
+
+        if (isset($input['on_page'])) {
+            $new_input['on_page'] = 1;
+        } else $new_input['on_page'] = 0;
 
         if (isset($input['email']))
             $new_input['email'] = $input['email'];
@@ -377,6 +389,12 @@ class MySettingsPage
         echo ($this->options['on_main'] == '1' ? 'checked="checked"' : ''); echo '  />';
 
     }
+     public function uptolike_on_page_callback()
+    {
+        echo '<input type="checkbox" id="on_page" name="my_option_name[on_page]"';
+        echo ($this->options['on_page'] == '1' ? 'checked="checked"' : ''); echo '  />';
+
+    }
 
 
     public function uptolike_widget_position_callback()
@@ -419,8 +437,6 @@ function add_widget($content)
     if (is_array($options) && array_key_exists('widget_code', $options)) {
         $widget_code = $options['widget_code'];
         $url = get_permalink();
-
-        //fixing bad data-pid
         $domain = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
         $data_pid = 'cms' . str_replace('.', '', $domain);
 
@@ -429,24 +445,9 @@ function add_widget($content)
         $widget_code = str_replace('div data', 'div data-url="' . $url . '" data', $widget_code);
         $widget_code_before = $widget_code_after = '';
 
-        /*if ((!is_single() && array_key_exists('on_main', $options) && ($options['on_main'] == 1 )) or is_single()) {
-            switch ($options['widget_position']) {
-                case 'both':
-                    return $widget_code.$content.$widget_code;//$widget_code_before = $widget_code_after = $widget_code;
-                    break;
-                case 'top':
-                    return $widget_code.$content; //$widget_code_before = $widget_code;
-                    break;
-                case 'bottom':
-                    return $content.$widget_code; //$widget_code_after = $widget_code;
-                    break;
-            }
-            return $widget_code_before.$content.$widget_code_after;
-        }
-        */
-        if(!is_single()) {
-            if ($options['on_main'] == 1 ) {
-                 switch ($options['widget_position']) {
+        if (is_page()) {//это страница
+            if ($options['on_page'] == 1) {
+                switch ($options['widget_position']) {
                 case 'both':
                     return $widget_code.$content.$widget_code;
                 case 'top':
@@ -454,8 +455,18 @@ function add_widget($content)
                 case 'bottom':
                     return $content.$widget_code; 
                 }
-            }    
-            else return $content;
+            } else return $content;
+        } elseif (is_front_page()) {
+            if ($options['on_main'] == 1) {
+                switch ($options['widget_position']) {
+                case 'both':
+                    return $widget_code.$content.$widget_code;
+                case 'top':
+                    return $widget_code.$content; 
+                case 'bottom':
+                    return $content.$widget_code; 
+                }
+            } else return $content;
         } else {
              switch ($options['widget_position']) {
                 case 'both':
@@ -465,7 +476,8 @@ function add_widget($content)
                 case 'bottom':
                     return $content.$widget_code; 
                 }
-        }; 
+        };
+         
     } else {
         return $content;
     }
@@ -568,6 +580,7 @@ EOD;
     $code = str_replace('data-url', 'data-url="' . $data_url . '"', $code);
     $options['widget_code'] = $code;
     $options['on_main'] = 1;
+    $options['on_page'] = 0;
     $options['widget_position'] = 'bottom';
 
     update_option('my_option_name', $options);
