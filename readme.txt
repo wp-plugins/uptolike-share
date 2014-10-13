@@ -3,7 +3,7 @@ Contributors: na1vez
 Tags: +1, UpToLike, AddThis, social buttons, bookmark, bookmarking, like, share, share button, sharing, social bookmarking, social bookmarks, social buttons
 Requires at least: 3.0.1
 Tested up to: 4.0
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 
 Uptolike Share Buttons - social bookmarking widget with sharing statistics.
 
@@ -66,6 +66,9 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 3. Traffic and sharing statistics
 
 == Changelog ==
+= 1.2.5 =
+* Bug fix: moinor layout  fixes
+
 = 1.2.4 =
 * Enhancement: new feature - on static page
 * Enhancement: security
