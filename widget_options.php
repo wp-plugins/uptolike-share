@@ -102,7 +102,7 @@ class MySettingsPage
 
         if ((isset($this->options['uptolike_email'])) && ('' !== $this->options['uptolike_email'])) {
             $email = $this->options['uptolike_email'];
-        } else $email = get_settings('admin_email');
+        } else $email = get_option('admin_email');
         $partnerId = 'cms';
         $projectId = 'cms' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
         $projectId = str_replace('.','',$projectId);
@@ -113,7 +113,7 @@ class MySettingsPage
         } else $cryptKey = '';
         ?>
         <script type="text/javascript">
-            <? include('main.js'); ?>
+            <?php include('main.js'); ?>
         </script>
         <style type="text/css">
             h2.placeholder {
@@ -161,15 +161,15 @@ class MySettingsPage
                         </a>
                     </div>
                     <div class="wrapper-tab" id="con_stat">
-                        <? if (('' == $partnerId) OR ('' == $email) OR ('' == $cryptKey)) {
+                        <?php if (('' == $partnerId) OR ('' == $email) OR ('' == $cryptKey)) {
 
                             ?>
                             <h2>Статистика</h2>
                             <p>Для просмотра статистики необходимо ввести ваш секретный ключ </p>
-                        <? } else { ?>
+                        <?php } else { ?>
                             <!-- <?php print_r(array($partnerId,$email, $cryptKey)); ?> -->
                             <iframe style="width: 100%;height: 380px;" id="stats_iframe" data-src="<?php echo $this->statIframe($projectId, $partnerId, $email, $cryptKey); ?>">
-                            </iframe> <?
+                            </iframe> <?php
                         } ?>
                         <button class="reg_btn" type="button">Запросить секретный ключ</button><br/>
                         <div class="reg_block">
@@ -350,7 +350,7 @@ class MySettingsPage
     {
         printf(
             '<input type="text" id="uptolike_email" name="my_option_name[uptolike_email]" value="%s" />',
-            isset($this->options['uptolike_email']) ? esc_attr($this->options['uptolike_email']) : get_settings('admin_email')
+            isset($this->options['uptolike_email']) ? esc_attr($this->options['uptolike_email']) : get_option('admin_email')
         );
     }
 
@@ -615,7 +615,8 @@ function usb_admin_actions()
     //echo 'run usb_admin_actions';
     if ( current_user_can('manage_options') ) {
         if (function_exists('add_meta_box')) {
-           add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page', 'http://uptolike.com/favicon.ico');
+
+           add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page',  plugins_url('uptolike-share/logo-small.png'));
         } else {
            // add_submenu_page("index.php", "UpToLike", "UpToLike", "manage_options", "UpToLike", "uptolike_settings", 'http://uptolike.com/favicon.ico');
         } // end if addmeta box
