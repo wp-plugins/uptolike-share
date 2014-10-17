@@ -169,7 +169,7 @@ function usb_admin_page()
                         <tr style="display:none">
                             <th scope="row">email для регистрации</th>
                             <td><input type="text" id="uptolike_email" name="my_option_name[uptolike_email]"
-                                       value="pk1z@ya3.ru">
+                                       value="">
                                 <button type="button" onclick="regMe();">Зарегистрироваться</button>
                             </td>
                         </tr>
