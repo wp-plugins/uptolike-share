@@ -238,7 +238,7 @@ class MySettingsPage
 
         add_settings_field(
             'on_main', //ID
-            'Располагать блок11 на главной странице',
+            'Располагать блок на главной странице',
             array($this, 'uptolike_on_main_callback'),
             $this->settings_page_name, //'my-setting-admin',
             'setting_section_id'
@@ -612,21 +612,18 @@ function choice_helper($choice)
 
 function usb_admin_actions()
 {
-    //echo 'run usb_admin_actions';
+
     if ( current_user_can('manage_options') ) {
         if (function_exists('add_meta_box')) {
 
            add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page',  plugins_url('uptolike-share/logo-small.png'));
         } else {
-           // add_submenu_page("index.php", "UpToLike", "UpToLike", "manage_options", "UpToLike", "uptolike_settings", 'http://uptolike.com/favicon.ico');
-        } // end if addmeta box
+          
+        } 
         if (get_option( OPTION_NAME_ENABLE_ADMIN_MENU, 'false' ) == 'true' ){
             add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
         }
 
-        //wpo_detectDBType();
-        //wpo_PluginOptionsSetDefaults();
-        //wpo_cron_activate();
     }
 }
 
@@ -640,7 +637,6 @@ register_deactivation_hook(__FILE__,'usb_admin_actions_remove');
 add_action('admin_notices', 'my_choice_notice');
 add_action('admin_notices', 'my_widgetcode_notice');
 add_action('admin_menu', 'usb_admin_actions');
-//add_action( 'wp_before_admin_bar_render', 'wpo_admin_bar' );
 
 $options = get_option('my_option_name');
 

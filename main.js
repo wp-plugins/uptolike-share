@@ -1,22 +1,22 @@
-/**
- * Created by root on 02.06.14.
- */
-
 var onmessage = function (e) {
-    if ('ready' == e.data.action ){
-        json = jQuery('input#uptolike_json').val();
-        initConstr(json);
-    }
-    if (('json' in e.data) && ('code' in e.data)) {
-        $('input#uptolike_json').val(e.data.json);
-        $('#widget_code').val(e.data.code);
-        jQuery('#settings_form').submit();
-    }
-    if (e.data.url.indexOf('constructor.html', 0) != -1) {
-        document.getElementById("cons_iframe").style.height = e.data.size + 'px';
-    }
-    if (e.data.url.indexOf('statistics.html', 0) != -1) {
-        document.getElementById("stats_iframe").style.height = e.data.size + 'px';
+    
+    if (e.data !== null && typeof e.data === 'object') {
+        if ('ready' == e.data.action ){
+            json = jQuery('input#uptolike_json').val();
+            initConstr(json);
+        }
+        if (('json' in e.data) && ('code' in e.data)) {
+            $('input#uptolike_json').val(e.data.json);
+            $('#widget_code').val(e.data.code);
+            jQuery('#settings_form').submit();
+        }
+        if (e.data.url.indexOf('constructor.html', 0) != -1) {
+            document.getElementById("cons_iframe").style.height = e.data.size + 'px';
+        }
+        if (e.data.url.indexOf('statistics.html', 0) != -1) {
+            document.getElementById("stats_iframe").style.height = e.data.size + 'px';
+        }
+            
     }
 };
 
@@ -93,7 +93,7 @@ window.onhashchange = function() {
 jQuery(document).ready(function () {
     $ = jQuery;
 
-    $('input.id_number').css('width','520px');//TODO dafuq? fixit
+    $('input.id_number').css('width','520px');//fix
     $('.uptolike_email').val($('#uptolike_email').val())//init fields with hidden value (server email)
     $('.enter_block input.id_number').attr('value', $('table input.id_number').val());
 
@@ -123,7 +123,7 @@ jQuery(document).ready(function () {
         $('#settings_form').submit();
     })
 
-    //если юзер не зареган
+    //if unregged user
     if ($('.id_number').val() == '') {
         $('#uptolike_email').after('<button type="button" onclick="regMe();">Зарегистрироваться</button>');
         json = $('input#uptolike_json').val();
