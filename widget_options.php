@@ -189,6 +189,10 @@ class MySettingsPage
                         do_settings_sections($this->settings_page_name);
                         ?>
                         <input type="submit" name="submit_btn" value="Cохранить изменения">
+                                                <br>
+                         "Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
+                         Пожалуйста, <a href="https://wordpress.org/support/view/plugin-reviews/uptolike-share">оставьте свой отзыв на данной странице</a>. Спасибо! <br>
+                       
                     </div>
 
                 </form>
@@ -252,6 +256,13 @@ class MySettingsPage
             'setting_section_id'
         );
 
+         add_settings_field(
+            'on_archive', //ID
+            'Убрать кнопки в анонсах постов',
+            array($this, 'uptolike_on_archive_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );
         add_settings_field(
             'widget_position', //ID
             'Расположение виджета',
@@ -305,6 +316,10 @@ class MySettingsPage
         if (isset($input['on_page'])) {
             $new_input['on_page'] = 1;
         } else $new_input['on_page'] = 0;
+
+        if (isset($input['on_archive'])) {
+            $new_input['on_archive'] = 1;
+        } else $new_input['on_archive'] = 0;
 
         if (isset($input['email']))
             $new_input['email'] = $input['email'];
@@ -395,7 +410,12 @@ class MySettingsPage
         echo ($this->options['on_page'] == '1' ? 'checked="checked"' : ''); echo '  />';
 
     }
+     public function uptolike_on_archive_callback()
+    {
+        echo '<input type="checkbox" id="on_archive" name="my_option_name[on_archive]"';
+        echo ($this->options['on_archive'] == '1' ? 'checked="checked"' : ''); echo '  />';
 
+    }
 
     public function uptolike_widget_position_callback()
     {
@@ -447,6 +467,17 @@ function add_widget($content)
 
         if (is_page()) {//это страница
             if ($options['on_page'] == 1) {
+                switch ($options['widget_position']) {
+                case 'both':
+                    return $widget_code.$content.$widget_code;
+                case 'top':
+                    return $widget_code.$content; 
+                case 'bottom':
+                    return $content.$widget_code; 
+                }
+            } else return $content;
+        } elseif (is_archive()) {
+            if ($options['on_archive'] == 0) {
                 switch ($options['widget_position']) {
                 case 'both':
                     return $widget_code.$content.$widget_code;
@@ -581,6 +612,7 @@ EOD;
     $options['widget_code'] = $code;
     $options['on_main'] = 1;
     $options['on_page'] = 0;
+    $options['on_archive'] = 1;    
     $options['widget_position'] = 'bottom';
 
     update_option('my_option_name', $options);

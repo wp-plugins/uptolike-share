@@ -184,6 +184,11 @@ function usb_admin_page()
                             </td>
                         </tr>
                         <tr>
+                            <th scope="row">Убрать кнопки в анонсах постов</th>
+                            <td><input type="checkbox" id="on_page" name="my_option_name[on_page]" checked="checked">
+                            </td>
+                        </tr>                         
+                        <tr>
                             <th scope="row">Расположение виджета</th>
                             <td><select id="widget_position" name="my_option_name[widget_position]">
                                     <option value="top">Только сверху</option>
@@ -203,6 +208,11 @@ function usb_admin_page()
                         </tbody>
                     </table>
                     <input type="submit" name="submit_btn" value="Cохранить изменения">
+                    
+                     <br>
+                         "Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
+                         Пожалуйста, <a href="https://wordpress.org/support/view/plugin-reviews/uptolike-share">оставьте свой отзыв на данной странице</a>. Спасибо! <br>
+                       
                 </div>
 
 
