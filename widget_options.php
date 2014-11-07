@@ -458,6 +458,7 @@ function add_widget($content)
         $widget_code = $options['widget_code'];
         $url = get_permalink();
         $domain = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
+	$domain = str_replace('-','',$domain);
         $data_pid = 'cms' . str_replace('.', '', $domain);
 
         $widget_code = str_replace('data-pid="-1"','data-pid="' . $data_pid . '"',$widget_code);
