@@ -680,7 +680,7 @@ function usb_admin_actions()
 
            add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page',  plugins_url('uptolike-share/logo-small.png'));
         }
-         add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
+        // add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
 
 
     }
