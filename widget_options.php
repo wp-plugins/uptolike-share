@@ -4,12 +4,13 @@
 class MySettingsPage
 {
 
-    private $options;
-    private $settings_page_name = 'uptolike_settings';
+    public $options;
+    public $settings_page_name = 'uptolike_settings';
     public function __construct()
     {
         add_action('admin_menu', array($this, 'add_plugin_page'));
         add_action('admin_init', array($this, 'page_init'));
+        $this->options = get_option('my_option_name');
     }
 
 
@@ -241,8 +242,16 @@ class MySettingsPage
         );
 
         add_settings_field(
+            'on_main_static', //ID
+            'Располагать на главной странице в фиксированном блоке',
+            array($this, 'uptolike_on_main_static_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );
+
+        add_settings_field(
             'on_main', //ID
-            'Располагать блок на главной странице',
+            'Располагать блок на главной странице с материалом',
             array($this, 'uptolike_on_main_callback'),
             $this->settings_page_name, //'my-setting-admin',
             'setting_section_id'
@@ -265,7 +274,7 @@ class MySettingsPage
         );
         add_settings_field(
             'widget_position', //ID
-            'Расположение виджета',
+            'Расположение блока на странице с материалом',
             array($this, 'uptolike_widget_position_callback'),
             $this->settings_page_name, //'my-setting-admin',
             'setting_section_id'
@@ -308,6 +317,10 @@ class MySettingsPage
 
         if (isset($input['before_content']))
             $new_input['before_content'] = $input['before_content'];
+
+        if (isset($input['on_main_static'])) {
+            $new_input['on_main_static'] = 1;
+        } else $new_input['on_main_static'] = 0;
 
         if (isset($input['on_main'])) {
             $new_input['on_main'] = 1;
@@ -398,6 +411,13 @@ class MySettingsPage
         );
     }
 
+    public function uptolike_on_main_static_callback()
+    {
+        echo '<input type="checkbox" id="on_main_static" name="my_option_name[on_main_static]"';
+        echo ($this->options['on_main_static'] == '1' ? 'checked="checked"' : ''); echo '  />';
+
+    }
+
     public function uptolike_on_main_callback()
     {
         echo '<input type="checkbox" id="on_main" name="my_option_name[on_main]"';
@@ -447,6 +467,21 @@ class MySettingsPage
 
 }
 
+function get_widget_code() {
+       $options = get_option('my_option_name');
+        $widget_code = $options['widget_code'];
+        $url = get_permalink();
+        $domain = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
+        $domain = str_replace('-','',$domain);
+        $data_pid = 'cms' . str_replace('.', '', $domain);
+
+        $widget_code = str_replace('data-pid="-1"','data-pid="' . $data_pid . '"',$widget_code);
+        $widget_code = str_replace('data-pid=""','data-pid="' . $data_pid . '"',$widget_code);
+        $widget_code = str_replace('div data', 'div data-url="' . $url . '" data', $widget_code);
+
+return $widget_code;
+
+}
 
 function add_widget($content)
 {
@@ -455,16 +490,9 @@ function add_widget($content)
     
     $options = get_option('my_option_name');
     if (is_array($options) && array_key_exists('widget_code', $options)) {
-        $widget_code = $options['widget_code'];
-        $url = get_permalink();
-        $domain = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
-	$domain = str_replace('-','',$domain);
-        $data_pid = 'cms' . str_replace('.', '', $domain);
 
-        $widget_code = str_replace('data-pid="-1"','data-pid="' . $data_pid . '"',$widget_code);
-        $widget_code = str_replace('data-pid=""','data-pid="' . $data_pid . '"',$widget_code);
-        $widget_code = str_replace('div data', 'div data-url="' . $url . '" data', $widget_code);
-        $widget_code_before = $widget_code_after = '';
+        //$widget_code_before = $widget_code_after = '';
+        $widget_code = get_widget_code();
 
         if (is_page()) {//это страница
             if ($options['on_page'] == 1) {
@@ -611,6 +639,7 @@ EOD;
 
     $code = str_replace('data-url', 'data-url="' . $data_url . '"', $code);
     $options['widget_code'] = $code;
+    $options['on_main_static'] = 1;
     $options['on_main'] = 1;
     $options['on_page'] = 0;
     $options['on_archive'] = 1;    
@@ -650,12 +679,9 @@ function usb_admin_actions()
         if (function_exists('add_meta_box')) {
 
            add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page',  plugins_url('uptolike-share/logo-small.png'));
-        } else {
-          
-        } 
-        if (get_option( OPTION_NAME_ENABLE_ADMIN_MENU, 'false' ) == 'true' ){
-            add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
         }
+         add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
+
 
     }
 }
@@ -664,8 +690,21 @@ function my_custom_menu_page(){
     include_once( 'usb-admin.php' );
 }
 
+function headeruptolike(){
+    $options = get_option('my_option_name');
+    if (!(is_bool($options))){
+        if ($options['on_main_static'] == 1) {
+            echo get_widget_code();
+        }
+    }
+
+
+}
+
 register_activation_hook(__FILE__,'usb_admin_actions');
 register_deactivation_hook(__FILE__,'usb_admin_actions_remove');
+
+add_action('wp_footer', headeruptolike, 1);
 
 add_action('admin_notices', 'my_choice_notice');
 add_action('admin_notices', 'my_widgetcode_notice');

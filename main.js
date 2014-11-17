@@ -64,6 +64,14 @@ function regMe(my_mail) {
 
 function hashChange(){
     var hsh = document.location.hash
+  //  if ('#settings' == hsh) {
+  //      $('.nav-tab-wrapper a').removeClass('nav-tab-active');
+  //      $('a.nav-tab#settings').addClass('nav-tab-active');
+  //      $('.wrapper-tab').removeClass('active');
+  //      $('#con_settings').addClass('active');
+  //  }
+
+   // else
     if (('#reg' == hsh) || ('#enter' == hsh)) {
 
         $('.nav-tab-wrapper a').removeClass('nav-tab-active');

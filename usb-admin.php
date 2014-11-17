@@ -1,4 +1,7 @@
 <?php
+
+
+
 function constructorIframe($projectId, $partnerId, $mail, $cryptKey)
 {
 
@@ -148,65 +151,13 @@ function usb_admin_page()
                 </div>
 
                 <div class="wrapper-tab " id="con_settings">
-                    <input type="hidden" name="option_page" value="my_option_group"><input type="hidden" name="action"
-                                                                                           value="update"><input
-                        type="hidden" id="_wpnonce" name="_wpnonce" value="cac4f73a65"><input type="hidden"
-                                                                                              name="_wp_http_referer"
-                                                                                              value="/wp-admin/options-general.php?page=uptolike_settings">
-
-                    <h3>Настройки виджета</h3>
-                    <table class="form-table">
-                        <tbody>
-                        <tr style="display:none">
-                            <th scope="row">код виджета</th>
-                            <td><textarea id="widget_code" name="my_option_name[widget_code]"></textarea></td>
-                        </tr>
-                        <tr style="display:none">
-                            <th scope="row">Ключ(CryptKey)</th>
-                            <td><input type="text" class="id_number" name="my_option_name[id_number]" value=""
-                                       style="width: 520px;"></td>
-                        </tr>
-                        <tr style="display:none">
-                            <th scope="row">email для регистрации</th>
-                            <td><input type="text" id="uptolike_email" name="my_option_name[uptolike_email]"
-                                       value="">
-                                <button type="button" onclick="regMe();">Зарегистрироваться</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Располагать блок на главной странице</th>
-                            <td><input type="checkbox" id="on_main" name="my_option_name[on_main]" checked="checked">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Располагать блок на статических страницах</th>
-                            <td><input type="checkbox" id="on_page" name="my_option_name[on_page]" checked="checked">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Убрать кнопки в анонсах постов</th>
-                            <td><input type="checkbox" id="on_page" name="my_option_name[on_page]" checked="checked">
-                            </td>
-                        </tr>                         
-                        <tr>
-                            <th scope="row">Расположение виджета</th>
-                            <td><select id="widget_position" name="my_option_name[widget_position]">
-                                    <option value="top">Только сверху</option>
-                                    <option selected="selected" value="bottom">Только снизу</option>
-                                    <option value="both">Сверху и снизу</option>
-                                </select></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Обратная связь</th>
-                            <td><a href="mailto:support@uptolike.com" target="_top"> support@uptolike.com</a></td>
-                        </tr>
-                        <tr style="display:none">
-                            <th scope="row">настройки конструктора</th>
-                            <td><input type="hidden" id="uptolike_json" name="my_option_name[uptolike_json]" value="">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                         <?php
+                         $my_settings_page = new MySettingsPage();
+                         $my_settings_page->page_init();
+                        settings_fields('my_option_group');
+                        do_settings_sections($my_settings_page->settings_page_name);
+                        ?>
+                   
                     <input type="submit" name="submit_btn" value="Cохранить изменения">
                     
                      <br>
