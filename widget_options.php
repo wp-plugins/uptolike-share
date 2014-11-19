@@ -704,7 +704,7 @@ function headeruptolike(){
 register_activation_hook(__FILE__,'usb_admin_actions');
 register_deactivation_hook(__FILE__,'usb_admin_actions_remove');
 
-add_action('wp_footer', headeruptolike, 1);
+add_action('wp_footer', 'headeruptolike', 1);
 
 add_action('admin_notices', 'my_choice_notice');
 add_action('admin_notices', 'my_widgetcode_notice');
