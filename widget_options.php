@@ -680,7 +680,7 @@ function usb_admin_actions()
 
            add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page',  plugins_url('uptolike-share/logo-small.png'));
         }
-        // add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
+         add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
 
 
     }
@@ -701,15 +701,49 @@ function headeruptolike(){
 
 }
 
+class UptolikeWidget extends WP_Widget {
+
+    function UptolikeWidget() {
+        // Instantiate the parent object
+        parent::__construct( false, 'Блок кнопок UpToLike' );
+    }
+
+    function widget( $args, $instance ) {
+        echo get_widget_code();
+        //echo 'uptolike widget';
+        // Widget outputo
+    }
+
+    function update( $new_instance, $old_instance ) {
+        // Save widget options
+    }
+
+    function form( $instance ) {
+        // Output admin widget options form
+    }
+}
+
+function uptolike_register_widgets() {
+    register_widget( 'UptolikeWidget' );
+}
+
+
+
 register_activation_hook(__FILE__,'usb_admin_actions');
 register_deactivation_hook(__FILE__,'usb_admin_actions_remove');
 
-add_action('wp_footer', 'headeruptolike', 1);
+add_action( 'widgets_init', 'uptolike_register_widgets' );
+
+add_action('wp_footer', headeruptolike, 1);
+
+
 
 add_action('admin_notices', 'my_choice_notice');
 add_action('admin_notices', 'my_widgetcode_notice');
 add_action('admin_menu', 'usb_admin_actions');
 
+
+Подробнее: http://i-novice.net/kak-napisat-wordpress-vidzhet/
 $options = get_option('my_option_name');
 
 if (is_admin()) {
