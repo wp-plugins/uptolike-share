@@ -743,7 +743,7 @@ add_action('admin_notices', 'my_widgetcode_notice');
 add_action('admin_menu', 'usb_admin_actions');
 
 
-Подробнее: http://i-novice.net/kak-napisat-wordpress-vidzhet/
+
 $options = get_option('my_option_name');
 
 if (is_admin()) {
