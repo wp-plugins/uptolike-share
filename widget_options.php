@@ -658,19 +658,7 @@ function choice_helper($choice)
     update_option('my_option_name', $options);
 }
 
-/*function usb_admin_bar() {
-    global $wp_admin_bar;
 
-    echo 'run usb admin bar';
-    //Add a link called at the top admin bar
-    $wp_admin_bar->add_node(array(
-        'id'    => 'UpToLike',
-        'title' => 'UpToLike',
-        'href'  => admin_url( 'options-general.php?page=uptolike_settings', 'http' )
-    ));
-
-}
-*/
 
 function usb_admin_actions()
 {
@@ -680,7 +668,6 @@ function usb_admin_actions()
 
            add_menu_page("UpToLike", "UpToLike", "manage_options", "UpToLike", 'my_custom_menu_page',  plugins_url('uptolike-share/logo-small.png'));
         }
-         add_action( 'wp_before_admin_bar_render', 'usb_admin_bar' );
 
 
     }
