@@ -721,7 +721,7 @@ register_deactivation_hook(__FILE__,'usb_admin_actions_remove');
 
 add_action( 'widgets_init', 'uptolike_register_widgets' );
 
-add_action('wp_footer', headeruptolike, 1);
+add_action('wp_footer', 'headeruptolike', 1);
 
 
 
