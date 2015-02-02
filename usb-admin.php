@@ -157,7 +157,9 @@ function usb_admin_page()
                         settings_fields('my_option_group');
                         do_settings_sections($my_settings_page->settings_page_name);
                         ?>
-                   
+                   <p>Для вставки шорткода в .php файл шаблона нужно использовать конструкцию <br>
+&lt;?php echo do_shortcode("[uptolike]"); ?&gt;<br>
+Для вставки в режиме визуального редактора достаточно вставить [uptolike].</p>
                     <input type="submit" name="submit_btn" value="Cохранить изменения">
                     
                      <br>

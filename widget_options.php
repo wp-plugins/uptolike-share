@@ -1,6 +1,6 @@
 <?php
 
-
+//widget_options.php
 class MySettingsPage
 {
 
@@ -189,6 +189,11 @@ class MySettingsPage
                         settings_fields('my_option_group');
                         do_settings_sections($this->settings_page_name);
                         ?>
+<p>Для вставки шорткода в .php файл шаблона нужно использовать конструкцию 
+&lt;?php echo do_shortcode("[uptolike]"); ?&lt;
+Для вставки в режиме визуального редактора достаточно 
+[uptolike]</p>
+                        
                         <input type="submit" name="submit_btn" value="Cохранить изменения">
                                                 <br>
                          "Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
@@ -281,6 +286,23 @@ class MySettingsPage
         );
 
         add_settings_field(
+            'widget_align', //ID
+            'Тип выравнивания блока с кнопками',
+            array($this, 'uptolike_widget_align_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );
+
+        add_settings_field(
+            'widget_mode', //ID
+            'Режим работы плагина',
+            array($this, 'uptolike_widget_mode_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );        
+
+
+        add_settings_field(
             'feedback', //ID
             'Обратная связь',
             array($this, 'uptolike_feedback_callback'),
@@ -342,6 +364,13 @@ class MySettingsPage
 
         if (isset($input['widget_position']))
             $new_input['widget_position'] = $input['widget_position'];
+
+        if (isset($input['widget_mode']))
+            $new_input['widget_mode'] = $input['widget_mode'];
+
+        if (isset($input['widget_align']))
+            $new_input['widget_align'] = $input['widget_align'];
+
 
         if (isset($input['uptolike_json']))
             $new_input['uptolike_json'] = $input['uptolike_json'];
@@ -437,6 +466,58 @@ class MySettingsPage
 
     }
 
+    public function uptolike_widget_mode_callback()
+    {
+        $plg_mode = $code_mode = $both_mode = $default = '';
+
+        if (isset($this->options['widget_mode'])) {
+            if ('plg' == $this->options['widget_mode']) {
+                $plg_mode = "selected='selected'";
+            } elseif ('code' == $this->options['widget_mode']) {
+                $code_mode = "selected='selected'";
+            } elseif ('both' == $this->options['widget_mode']) {
+                $both_mode = "selected='selected'";
+            }
+        } else {
+            $my_options = get_option('my_option_name');
+            $my_options['widget_mode'] = 'plg'; // cryptkey store
+            update_option('my_option_name', $my_options);
+        }
+        //$default = "selected='selected'";
+        echo "<select id='widget_mode' name='my_option_name[widget_mode]'>
+                            <option {$plg_mode} value='plg'>Плагин</option>
+                            <option {$code_mode} value='code'>Шорткод</option>
+                            <option {$both_mode} value='both'>Плагин и шорткод</option>
+                        </select>";
+
+    }
+
+    public function uptolike_widget_align_callback()
+    {
+        $left = $right = $center = $default = '';
+
+        if (isset($this->options['widget_align'])) {
+            if ('left' == $this->options['widget_align']) {
+                $left = "selected='selected'";
+            } elseif ('right' == $this->options['widget_align']) {
+                $right = "selected='selected'";
+            } elseif ('center' == $this->options['widget_align']) {
+                $center = "selected='selected'";
+            }
+        } else {
+            $my_options = get_option('my_option_name');
+            $my_options['widget_align'] = 'left'; // cryptkey store
+            update_option('my_option_name', $my_options);
+        }
+        //$default = "selected='selected'";
+        echo "<select id='widget_align' name='my_option_name[widget_align]'>
+                            <option {$left} value='left'>По левому краю</option>
+                            <option {$right} value='right'>По правому краю</option>
+                            <option {$center} value='center'>По центру</option>
+                        </select>";
+
+    }
+
     public function uptolike_widget_position_callback()
     {
         $top = $bottom = $both = $default = '';
@@ -478,6 +559,10 @@ function get_widget_code() {
         $widget_code = str_replace('data-pid="-1"','data-pid="' . $data_pid . '"',$widget_code);
         $widget_code = str_replace('data-pid=""','data-pid="' . $data_pid . '"',$widget_code);
         $widget_code = str_replace('div data', 'div data-url="' . $url . '" data', $widget_code);
+        $align = $options['widget_code'];//'left';//'right', 'center';
+       // var_dump($widget_code);
+        $align_style = 'style="    text-align: '.$align.';"';
+        $widget_code = str_replace('<div ', '<div '.$align_style.' ', $widget_code); 
 
 return $widget_code;
 
@@ -489,7 +574,12 @@ function add_widget($content)
     //return $content;
     
     $options = get_option('my_option_name');
-    if (is_array($options) && array_key_exists('widget_code', $options)) {
+
+   //    $options = get_option('my_option_name');
+    $widget_mode = $options['widget_mode'];
+   
+
+    if (is_array($options) && (($widget_mode == 'plg') or ($widget_mode == 'both')) && array_key_exists('widget_code', $options)) {
 
         //$widget_code_before = $widget_code_after = '';
         $widget_code = get_widget_code();
@@ -548,7 +638,15 @@ add_filter('the_content', 'add_widget', 100);
 
 function uptolike_shortcode( $atts ){
 
-    return add_widget("");
+    $options = get_option('my_option_name');
+    $widget_mode = $options['widget_mode'];
+    if(($widget_mode == 'code') or ($widget_mode == 'both')) {
+        return get_widget_code();    
+    };
+
+
+    
+    //return add_widget("");
 }
 add_shortcode( 'uptolike', 'uptolike_shortcode' );
 
@@ -644,6 +742,8 @@ EOD;
     $options['on_page'] = 0;
     $options['on_archive'] = 1;    
     $options['widget_position'] = 'bottom';
+    $options['widget_align'] = 'left';
+
 
     update_option('my_option_name', $options);
 }
