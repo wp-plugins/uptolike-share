@@ -559,7 +559,7 @@ function get_widget_code() {
         $widget_code = str_replace('data-pid="-1"','data-pid="' . $data_pid . '"',$widget_code);
         $widget_code = str_replace('data-pid=""','data-pid="' . $data_pid . '"',$widget_code);
         $widget_code = str_replace('div data', 'div data-url="' . $url . '" data', $widget_code);
-        $align = $options['widget_code'];//'left';//'right', 'center';
+        $align = $options['widget_align'];//'left';//'right', 'center';
        // var_dump($widget_code);
         $align_style = 'style="    text-align: '.$align.';"';
         $widget_code = str_replace('<div ', '<div '.$align_style.' ', $widget_code); 
