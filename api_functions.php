@@ -1,6 +1,6 @@
 <?php
 
-const HOST = 'http://uptolike.com/';
+const HOST = 'https://uptolike.com/';
 
 /**
  * @param $email
@@ -11,7 +11,7 @@ const HOST = 'http://uptolike.com/';
 function userReg($email, $partnerId, $projectId){
 
     if ($email !== '' && $partnerId !== '' && $projectId !== '') {
-        $url = 'http://uptolike.com/api/getCryptKeyWithUserReg.json?'.http_build_query(array(
+        $url = 'https://uptolike.com/api/getCryptKeyWithUserReg.json?'.http_build_query(array(
                 'email' => $email,
                 'partner' => $partnerId,
                 'projectId' => $projectId));
@@ -38,7 +38,7 @@ function statIframe($partnerId, $mail, $cryptKey) {
     $paramsStr = 'mail='.$mail.'&partner='.$partnerId;
     $signature = md5($paramsStr.$cryptKey);
     $params['signature'] = $signature;
-    $finalUrl = 'http://uptolike.com/api/statistics.html?'.http_build_query($params);
+    $finalUrl = 'https://uptolike.com/api/statistics.html?'.http_build_query($params);
 
     return $finalUrl;
 }
@@ -60,7 +60,7 @@ function constructorIframe($mail, $partnerId, $projectId, $cryptKey) {
     //echo http_build_query($params).$cryptKey;
     $signature = md5($paramsStr);
     $params['signature'] = $signature;
-    $finalUrl = 'http://uptolike.com/api/constructor.html?'.http_build_query($params);
+    $finalUrl = 'https://uptolike.com/api/constructor.html?'.http_build_query($params);
 
     return $finalUrl;
 }
