@@ -43,7 +43,7 @@ function regMe(my_mail) {
                         partner: 'cms',
                         projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
                         url:document.location.host.replace( new RegExp("^www.","gim"),"")})
-    dataURL = "http://uptolike.com/api/getCryptKeyWithUserReg.json";
+    dataURL = "https://uptolike.com/api/getCryptKeyWithUserReg.json";
     jQuery.getJSON(dataURL + "?" + str + "&callback=?", {}, function (result) {
         var jsonString = JSON.stringify(result);
         var result = JSON.parse(jsonString);
@@ -154,7 +154,7 @@ jQuery(document).ready(function () {
     });
 
     hashChange();
-    $.getScript( "http://uptolike.com/api/getsession.json" )
+    $.getScript( "https://uptolike.com/api/getsession.json" )
         .done(function( script, textStatus ) {
             $('iframe#cons_iframe').attr('src',$('iframe#cons_iframe').attr('data-src'));
             $('iframe#stats_iframe').attr('src',$('iframe#stats_iframe').attr('data-src'));
