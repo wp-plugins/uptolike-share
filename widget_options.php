@@ -429,7 +429,7 @@ class MySettingsPage
 
     public function uptolike_feedback_callback()
     {
-        echo '<a href="mailto:support@uptolike.com" target="_top"> support@uptolike.com</a>';
+        echo '<a href="mailto:uptolikeshare@gmail.com" target="_top"> uptolikeshare@gmail.com</a>';
     }
 
     public function uptolike_project_callback()
