@@ -3,7 +3,7 @@ Contributors: na1vez
 Tags: +1, UpToLike, AddThis, social buttons, bookmark, bookmarking, like, share, share button, sharing, social bookmarking, social bookmarks, social buttons, кнопки соцсетей, социальные кнопки
 Requires at least: 3.0.1
 Tested up to: 4.2.2
-Stable tag: 1.3.9
+Stable tag: 1.3.8
 
 Uptolike Share Buttons - social bookmarking widget with sharing statistics.
 
@@ -49,9 +49,7 @@ UpToLike is compatible with 25 popular social networking sites. It supports the 
 * Per-page site activity: how many Likes and Shares for each individual page, and how many new visitors came to each page
 * Social buttons adapted to mobile devices
 
-
----
-
+> <strong>Uptolike Share Buttons - бесплатный русскоязычный плагин социальных кнопок</strong>
 
 **Какие задачи выполняет плагин Uptolike?**
 
@@ -95,7 +93,7 @@ Uptolike поддерживает 25 популярных социальных �
 == Installation ==
 1. Go to Plugins -> Add New
 2. Search for Uptolike
-3. Install the plugin called \\\"Uptolike Share Buttons\\\" and activate it
+3. Install the plugin called *Uptolike Share Buttons* and activate it
 4. Adjust your settings
 5. Request and fill the secret key field, if you want to receive the statistics
 6. Enjoy!
@@ -104,8 +102,8 @@ Uptolike поддерживает 25 популярных социальных �
 
 1. Выберите Плагины -> Добавить новый
 2. В строке поиска введите Uptolike
-3. Установите плагин \\\"Uptolike Share Buttons\\\" и активируйте
-4. Настройте внешний вид кнопок
+3. Установите плагин *Uptolike Share Buttons* и активируйте
+4. Настройте внешний вид кнопок 
 5. Для отображения статистики получите на адресс электронной почты секретный ключ и введите его на странице Статистика
 6. Наслаждайтесь!
 
@@ -141,7 +139,7 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 = 1.3.4 =
 * Bug fix
 
-= 1.3.3 =
+= 1.3.3 = 
 * Enhancement
 
 = 1.3.2 =
@@ -167,15 +165,15 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 * Enhancement: new feature - on archive
 
 = 1.2.5 =
-* Bug fix: minor bugs with short tag option
+* Bug fix: minor bugs with short tag option 
 
 = 1.2.4 =
 * Enhancement: new feature - on static page
 * Enhancement: security
-* Bug fix
+* Bug fix 
 
 = 1.2.3 =
-* Bug fix: show on main
+* Bug fix: show on main 
 
 = 1.2.2 =
 * Enhancement: cut spaces in cryptkey field
