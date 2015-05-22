@@ -52,44 +52,13 @@ function usb_admin_page()
     if (is_array($options) && array_key_exists('id_number', $options)) {
         $cryptKey = $options['id_number'];
     } else $cryptKey = '';
-    /*    $this->options = get_option('my_option_name');
 
-        if ((isset($this->options['uptolike_email'])) && ('' !== $this->options['uptolike_email'])) {
-            $email = $this->options['uptolike_email'];
-        } else $email = get_option('admin_email');
-        $partnerId = 'cms';
-        $projectId = 'cms' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);l
-        $projectId = str_replace('.','',$projectId);
-        $projectId = str_replace('-','',$projectId);
-        $options = get_option('my_option_name');
-        if (is_array($options) && array_key_exists('id_number', $options)) {
-            $cryptKey = $options['id_number'];
-        } else $cryptKey = '';
-    */
     ?>
     <script type="text/javascript">
         <?php include('main.js'); ?>
     </script>
     <style type="text/css">
-        h2.placeholder {
-            font-size: 1px;
-            padding: 1px;
-            margin: 0px;
-            height: 2px;
-        }
-
-        div.wrapper-tab {
-            display: none;
-        }
-
-        div.wrapper-tab.active {
-            display: block;
-            width: 100%;
-        }
-
-        input#id_number {
-            width: 520px;
-        }
+        <?php include('uptolike_style.css')?>
     </style>
     <div class="wrap">
         <h2 class="placeholder">&nbsp;</h2>
@@ -120,52 +89,78 @@ function usb_admin_page()
                     </a>
                 </div>
                 <div class="wrapper-tab" id="con_stat">
-                    <?php if (('' == $partnerId) OR ('' == $email) OR ('' == $cryptKey)) {
 
-                        ?>
-                        <h2>Статистика</h2>
-                        <p>Для просмотра статистики необходимо ввести ваш секретный ключ </p>
-                    <?php } else { ?>
-                        <!-- <?php print_r(array($partnerId, $email, $cryptKey)); ?> -->
-                        <iframe style="width: 100%;height: 380px;" id="stats_iframe"
-                                data-src="<?php echo statIframe($projectId, $partnerId, $email, $cryptKey); ?>">
-                        </iframe> <?php
-                    } ?>
-                    <button class="reg_btn" type="button">Запросить секретный ключ</button>
-                    <br/>
+                    <iframe style="width: 100%;height: 380px;" id="stats_iframe" data-src="<?php echo statIframe($projectId, $partnerId, $email, $cryptKey); ?>">
+                    </iframe>
 
-                    <div class="reg_block">
-                        <label>Email<input type="text" class="uptolike_email"></label><br/>
-                        <button type="button" class="button-primary">Отправить ключ на email</button>
-                        <br/>
+                    <div id="before_key_req">Введите ваш адрес электронной почты для получения ключа.</div>
+                    <div id="after_key_req">На ваш адрес электронной почты отправлен секретный ключ. Введите его в поле ниже<br>
+                        Если письмо с ключом долго не приходит, возможно оно попало в Спам.<br>
+                        Если ключ так и не был получен напишите письмо в службу поддержки:<a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a>
                     </div>
-                    <button class="enter_btn" type="button">Авторизация</button>
-                    <br/>
 
-                    <div class="enter_block">
-                        <label>Email<input type="text" class="uptolike_email"></label><br/>
-                        <label>Ключ<input type="text" class="id_number"></label><br/>
-                        <button type="button" class="button-primary">Сохранить</button>
-                        <br/>
-                    </div>
+
+                    <table>
+                        <tr id="email_tr"> <td>Email: </td> <td> <input type="text" id="uptolike_email_field"> </td> </tr>
+                        <tr id="cryptkey_field"> <td>Ключ: </td> <td> <input type="text" id="uptolike_cryptkey"> </td> </tr>
+                        <tr id="get_key_btn_field"> <td>  </td> <td> <button id="get_key" type="button"> Получить ключ </button> </td> </tr>
+                        <tr id="bad_key_field"><td colspan="2" >Введен неверный ключ! Убедитесь что вы скопировали ключ без лишних символов (пробелов и т.д.)</td></tr>
+                        <tr id="foreignAccess_field"><td colspan="2" >Данный проект принадлежит другому пользователю. Обратитесь в службу поддержки</td></tr>
+                        <tr id="key_auth_field"> <td>  </td> <td> <button id="auth" type="button"> Авторизация </button> </td> </tr>
+                    </table>
+                    <div>Обратная связь: <a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a></div>
+
+
+
                 </div>
 
                 <div class="wrapper-tab " id="con_settings">
-                         <?php
-                         $my_settings_page = new MySettingsPage();
-                         $my_settings_page->page_init();
+
+                    <div class="utl_left_block">
+                        <?php
+                        $my_settings_page = new MySettingsPage();
+                        $my_settings_page->page_init();
                         settings_fields('my_option_group');
                         do_settings_sections($my_settings_page->settings_page_name);
                         ?>
-                   <p>Для вставки шорткода в .php файл шаблона нужно использовать конструкцию <br>
-&lt;?php echo do_shortcode("[uptolike]"); ?&gt;<br>
-Для вставки в режиме визуального редактора достаточно вставить [uptolike].</p>
-                    <input type="submit" name="submit_btn" value="Cохранить изменения">
-                    
-                     <br>
-                         "Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
-                         Пожалуйста, <a href="https://wordpress.org/support/view/plugin-reviews/uptolike-share">оставьте свой отзыв на данной странице</a>. Спасибо! <br>
-                       
+
+                        <input type="submit" name="submit_btn" value="Cохранить изменения">
+
+                        <br>
+
+                    </div>
+
+                    <div class="utl_right_block">
+
+                    <div class="utl_blok1" >
+                        <div class="utl_blok2" >
+                            <div class="utl_logo utl_i_logo">
+                            </div>
+                        </div>
+                        <div class="utl_innertext" >Для вставки шорткода в .php файл шаблона нужно использовать конструкцию
+                            <br><b><i>
+                            &lt;?php echo do_shortcode("[uptolike]"); ?&gt;<br></i></b>
+                            Для вставки в режиме визуального редактора достаточно вставить<b> <i>[uptolike]</i></b>.</div>
+                    </div>
+                    <div class="utl_blok1" >
+                        <div class="utl_blok2" >
+                            <div class="utl_logo utl_like_logo">
+                            </div>
+                        </div>
+                        <div class="utl_innertext" >Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
+                            Пожалуйста, оставьте свой отзыв на <a href="https://wordpress.org/support/view/plugin-reviews/uptolike-share">данной странице</a>. Спасибо! <br>
+                        </div>
+                    </div>
+                    <div class="utl_blok1" >
+                        <div class="utl_blok2" >
+                            <div class="utl_logo utl_mail_logo">
+                            </div>
+                        </div>
+                        <div class="utl_innertext" ><a href="http://uptolike.ru">Uptolike.ru</a> - конструктор социальных кнопок для вашего сайта с расширенным функционалом.<br>
+                            Служба поддержки: <a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a></div>
+                    </div>
+                        </div>
+
                 </div>
 
 
@@ -174,5 +169,6 @@ function usb_admin_page()
     </div>
 <?php
 }
+//$my_settings_page->create_admin_page();
 
 usb_admin_page();

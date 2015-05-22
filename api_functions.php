@@ -57,7 +57,6 @@ function constructorIframe($mail, $partnerId, $projectId, $cryptKey) {
         'projectId' => $projectId);
 
     $paramsStr = 'mail='.$mail.'&partner='.$partnerId.'&projectId='.$projectId.$cryptKey;
-    //echo http_build_query($params).$cryptKey;
     $signature = md5($paramsStr);
     $params['signature'] = $signature;
     $finalUrl = 'https://uptolike.com/api/constructor.html?'.http_build_query($params);
