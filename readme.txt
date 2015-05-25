@@ -121,20 +121,20 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 
 == Changelog ==
 = 1.3.9 =
-* Enahncement: settings
+* Enhancement: settings
 
 = 1.3.8 =
-* Enahncement: new control panel
+* Enhancement: new control panel
 * Bug fix
 
 = 1.3.7 =
-* Enahncement: security
+* Enhancement: security
 
 = 1.3.6 =
 * Bug fix
 
 = 1.3.5 =
-* Enahncement: new align and shortcode settings
+* Enhancement: new align and shortcode settings
 
 = 1.3.4 =
 * Bug fix
@@ -146,7 +146,7 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 * Bug fix
 
 = 1.3.1 =
-* Enahncement: widget area
+* Enhancement: widget area
 
 = 1.3.0 =
 * Bug fix
