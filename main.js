@@ -25,8 +25,12 @@ var onmessage = function (e) {
 
                     break;
                 case 'foreignAccess':
-                    hashChange('#stat');
-                    $('#foreignAccess_field').show();
+                    if (($('table input#uptolike_email').val() != '') && ($('table input.id_number').val() != '')) {
+                        hashChange('#stat');
+
+                        $('#foreignAccess_field').show();
+                    }
+
                     console.log('foreignAccess');
                     break;
                 case 'ready':
