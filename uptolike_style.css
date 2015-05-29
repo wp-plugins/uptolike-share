@@ -110,3 +110,48 @@ iframe#stats_iframe {
     width: 620px;
     float: left;
 }
+
+span.utl_quest{
+    background: #F8F8F8;
+    border: 5px solid #DFDFDF;
+    color: #717171;
+    font-size: 13px;
+    height: 63px;
+    width: 237px;
+    position: absolute;
+    text-align: center;
+    top: 389px;
+    left: 32px;
+    display: none;
+    z-index: 100;
+
+}
+span.utl_quest:after{
+   /* content:'';*/
+    position:absolute;
+    bottom:-10px;
+    width:10px;
+    height:10px;
+    border-bottom:5px solid #dfdfdf;
+    border-right:5px solid #dfdfdf;
+    background:#f8f8f8;
+    left:50%;
+    margin-left:-10px;
+    -moz-transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+p.utl_quest{
+   /* margin:100px;*/
+    float:none;
+    /*position:relative;*/
+    cursor:pointer;
+    display: inline;
+}
+
+p.utl_quest:hover span.utl_quest{
+    display:block;
+}
+img.utl_quest {
+    float: none;
+}

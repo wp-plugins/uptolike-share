@@ -294,6 +294,15 @@ class MySettingsPage
             $this->settings_page_name, //'my-setting-admin',
             'setting_section_id'
         );
+
+        add_settings_field(
+            'on_special_pages', //ID
+            'На спец. страницах <p class="utl_quest"><img class="utl_quest" src="/wp-content/plugins/uptolike-share/quest.png"><span class="utl_quest">Отображение блока кнопок на страницах, созданных плагинами (WooCommerce, WP-Shop и т.д.)</span></p>',
+            array($this, 'uptolike_on_special_pages_callback'),
+            $this->settings_page_name, //'my-setting-admin',
+            'setting_section_id'
+        );
+
         add_settings_field(
             'widget_position', //ID
             'Расположение блока',
@@ -376,6 +385,10 @@ class MySettingsPage
         if (isset($input['on_page'])) {
             $new_input['on_page'] = 1;
         } else $new_input['on_page'] = 0;
+
+        if (isset($input['on_special_pages'])) {
+            $new_input['on_special_pages'] = 1;
+        } else $new_input['on_special_pages'] = 0;
 
         if (isset($input['on_archive'])) {
             $new_input['on_archive'] = 1;
@@ -487,6 +500,14 @@ class MySettingsPage
         echo ($this->options['on_page'] == '1' ? 'checked="checked"' : ''); echo '  />';
 
     }
+    public function uptolike_on_special_pages_callback()
+    {
+        echo '<input type="checkbox" id="on_special_pages" name="my_option_name[on_special_pages]"';
+        echo ($this->options['on_special_pages'] == '1' ? 'checked="checked"' : ''); echo '  />';
+
+    }
+
+
     public function uptolike_on_archive_callback()
     {
         echo '<input type="checkbox" id="on_archive" name="my_option_name[on_archive]"';
@@ -813,8 +834,10 @@ EOD;
     $code = str_replace('data-url', 'data-url="' . $data_url . '"', $code);
     $options['widget_code'] = $code;
     $options['on_main_static'] = 1;
+
     $options['on_main'] = 1;
     $options['on_page'] = 0;
+    $options['on_special_pages'] = 1;
     $options['on_archive'] = 1;
     $options['widget_position'] = 'bottom';
     $options['widget_align'] = 'left';
@@ -853,13 +876,32 @@ function my_custom_menu_page(){
 }
 
 function headeruptolike(){
-   // $options = get_option('my_option_name');
-   // echo '<!--'; print_r($options); echo '-->';
-   // if (!(is_bool($options))){
-   //     if ($options['on_main_static'] == 1) {
-   //         echo get_widget_code();
-   //     }
-   // }
+
+                $options = get_option('my_option_name');
+                if ($options['on_special_pages'] == 1) {
+
+                    //echo 'run on spec pages';
+                    $in_content = array(0,1);
+                    $in_fixed_block = array(2,3,4,5);
+                    $curr_value = json_decode($options['uptolike_json'])->orientation;
+                    if (in_array($curr_value,$in_content)) {
+                        // echo 'in content';
+                    } elseif (in_array($curr_value,$in_fixed_block)){
+
+
+                        if (is_page()) {//это страница
+                            if ($options['on_page'] == 1)    echo get_widget_code();
+                        } elseif (is_archive()) {
+                            if ($options['on_archive'] == 1)  echo get_widget_code();
+                        } elseif (is_front_page()) {
+                            if ($options['on_main'] == 1)  echo get_widget_code();
+                        } else { echo get_widget_code();
+                        };
+                        //echo 'in_fixed_block';
+                    }
+                }
+
+
 
 
 }
