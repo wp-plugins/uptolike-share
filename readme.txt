@@ -1,14 +1,14 @@
-=== Uptolike Share Buttons ===
+=== Uptolike Social Share Buttons ===
 Contributors: na1vez
 Tags: +1, UpToLike, AddThis, social buttons, bookmark, bookmarking, like, share, share button, sharing, social bookmarking, social bookmarks, social buttons, кнопки соцсетей, социальные кнопки
 Requires at least: 3.0.1
 Tested up to: 4.2.2
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 
-Uptolike Share Buttons - social bookmarking widget with sharing statistics.
+Uptolike Social Share Buttons - social bookmarking widget with sharing statistics.
 
 == Description ==
-**What Can You Do With UpToLike Share Buttons?**
+**What Can You Do With UpToLike Social Share Buttons?**
 
 * Create custom buttons that will visually appeal to users
 * Easily manage social activity online
@@ -20,11 +20,11 @@ Uptolike Share Buttons - social bookmarking widget with sharing statistics.
 UpToLike is a single interface from which you can manage the appearance and efficiency of social buttons on your site, as well as collect and analyze statistics on
 likes, shares, returns, new users, sources of social traffic, and more.
 
-**Which social networks does UpToLike Share Buttons support?**
+**Which social networks does UpToLike Social Share Buttons support?**
 
 UpToLike is compatible with 25 popular social networking sites. It supports the following functions: Bookmark, Print, Email, Follow, etc.
 
-**Unique Functions of UpToLike Share Buttons**
+**Unique Functions of UpToLike Social Share Buttons**
 
 * Customization of social buttons:
 
@@ -49,7 +49,7 @@ UpToLike is compatible with 25 popular social networking sites. It supports the 
 * Per-page site activity: how many Likes and Shares for each individual page, and how many new visitors came to each page
 * Social buttons adapted to mobile devices
 
-**Uptolike Share Buttons - бесплатный русскоязычный плагин социальных кнопок**
+**Uptolike Social Share Buttons - бесплатный русскоязычный плагин социальных кнопок**
 
 **Какие задачи выполняет плагин Uptolike?**
 
@@ -93,7 +93,7 @@ Uptolike поддерживает 25 популярных социальных �
 == Installation ==
 1. Go to Plugins -> Add New
 2. Search for Uptolike
-3. Install the plugin called *Uptolike Share Buttons* and activate it
+3. Install the plugin called *Uptolike Social Share Buttons* and activate it
 4. Adjust your settings
 5. Request and fill the secret key field, if you want to receive the statistics
 6. Enjoy!
@@ -102,7 +102,7 @@ Uptolike поддерживает 25 популярных социальных �
 
 1. Выберите Плагины -> Добавить новый
 2. В строке поиска введите Uptolike
-3. Установите плагин *Uptolike Share Buttons* и активируйте
+3. Установите плагин *Uptolike Social Share Buttons* и активируйте
 4. Настройте внешний вид кнопок 
 5. Для отображения статистики получите на адресс электронной почты секретный ключ и введите его на странице Статистика
 6. Наслаждайтесь!
@@ -120,6 +120,13 @@ Answers to Frequently Asked Questions you can find at http://uptolike.ru/faq
 3. Traffic and sharing statistics
 
 == Changelog ==
+= 1.4.2 =
+* Bug fix
+* Enhancement: rename
+
+= 1.4.1 =
+* Enhancement: settings
+
 = 1.4.1 =
 * Enhancement: settings
 

@@ -100,7 +100,7 @@ function regMe(my_mail) {
                         partner: 'cms',
                         projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
                         url:document.location.host.replace( new RegExp("^www.","gim"),"")})
-    dataURL = "https://uptolike.com/api/getCryptKeyWithUserReg.json";
+    dataURL = "http://uptolike.com/api/getCryptKeyWithUserReg.json";
     jQuery.getJSON(dataURL + "?" + str + "&callback=?", {}, function (result) {
         var jsonString = JSON.stringify(result);
         var result = JSON.parse(jsonString);
