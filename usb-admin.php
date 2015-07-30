@@ -1,6 +1,6 @@
 <?php
 
-
+/* 1.4.3 */
 
 function constructorIframe($projectId, $partnerId, $mail, $cryptKey)
 {
@@ -96,7 +96,7 @@ function usb_admin_page()
                     <div id="before_key_req">Введите ваш адрес электронной почты для получения ключа.</div>
                     <div id="after_key_req">На ваш адрес электронной почты отправлен секретный ключ. Введите его в поле ниже<br>
                         Если письмо с ключом долго не приходит, возможно оно попало в Спам.<br>
-                        Если ключ так и не был получен напишите письмо в службу поддержки:<a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a>
+                        Если ключ так и не был получен напишите письмо в службу поддержки: <a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a>
                     </div>
 
 
@@ -132,34 +132,34 @@ function usb_admin_page()
 
                     <div class="utl_right_block">
 
-                    <div class="utl_blok1" >
-                        <div class="utl_blok2" >
-                            <div class="utl_logo utl_i_logo">
+                        <div class="utl_blok1" >
+                            <div class="utl_blok2" >
+                                <div class="utl_logo utl_i_logo">
+                                </div>
+                            </div>
+                            <div class="utl_innertext" >Для вставки шорткода в .php файл шаблона нужно использовать конструкцию
+                                <br><b><i>
+                                        &lt;?php echo do_shortcode("[uptolike]"); ?&gt;<br></i></b>
+                                Для вставки в режиме визуального редактора достаточно вставить<b> <i>[uptolike]</i></b>.</div>
+                        </div>
+                        <div class="utl_blok1" >
+                            <div class="utl_blok2" >
+                                <div class="utl_logo utl_like_logo">
+                                </div>
+                            </div>
+                            <div class="utl_innertext" >Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
+                                Пожалуйста, оставьте свой отзыв на <a href="https://wordpress.org/support/view/plugin-reviews/uptolike-share">данной странице</a>. Спасибо! <br>
                             </div>
                         </div>
-                        <div class="utl_innertext" >Для вставки шорткода в .php файл шаблона нужно использовать конструкцию
-                            <br><b><i>
-                            &lt;?php echo do_shortcode("[uptolike]"); ?&gt;<br></i></b>
-                            Для вставки в режиме визуального редактора достаточно вставить<b> <i>[uptolike]</i></b>.</div>
-                    </div>
-                    <div class="utl_blok1" >
-                        <div class="utl_blok2" >
-                            <div class="utl_logo utl_like_logo">
+                        <div class="utl_blok1" >
+                            <div class="utl_blok2" >
+                                <div class="utl_logo utl_mail_logo">
+                                </div>
                             </div>
-                        </div>
-                        <div class="utl_innertext" >Данный плагин полностью бесплатен. Мы регулярно его улучшаем и добавляем новые функции.<br>
-                            Пожалуйста, оставьте свой отзыв на <a href="https://wordpress.org/support/view/plugin-reviews/uptolike-share">данной странице</a>. Спасибо! <br>
+                            <div class="utl_innertext" ><a href="http://uptolike.ru">Uptolike.ru</a> - конструктор социальных кнопок для вашего сайта с расширенным функционалом.<br>
+                                Служба поддержки: <a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a></div>
                         </div>
                     </div>
-                    <div class="utl_blok1" >
-                        <div class="utl_blok2" >
-                            <div class="utl_logo utl_mail_logo">
-                            </div>
-                        </div>
-                        <div class="utl_innertext" ><a href="http://uptolike.ru">Uptolike.ru</a> - конструктор социальных кнопок для вашего сайта с расширенным функционалом.<br>
-                            Служба поддержки: <a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a></div>
-                    </div>
-                        </div>
 
                 </div>
 

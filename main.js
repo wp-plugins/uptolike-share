@@ -1,3 +1,4 @@
+//1.4.3
 var onmessage = function (e) {
 
     if (e.data !== null && typeof e.data === 'object') {
@@ -11,7 +12,8 @@ var onmessage = function (e) {
             jQuery('#settings_form').submit();
         }
 
-        $('iframe#stats_iframe').hide();
+        //$('iframe#stats_iframe').hide();
+        //document.getElementById('stats_iframe').style.display = 'none';
         if (e.data.url.indexOf('statistics.html', 0) != -1) {
             switch (e.data.action) {
                 case 'badCredentials':
@@ -19,7 +21,8 @@ var onmessage = function (e) {
                     if (($('table input#uptolike_email').val() != '') && ($('table input.id_number').val() != '')) {
                         //document.location.hash = "stat";
                         hashChange('#stat');
-                        $('#bad_key_field').show();
+                        //$('#bad_key_field').show();
+                        document.getElementById('bad_key_field').style.display = 'block';
                         console.log('badCredentials');
                     }
 
@@ -28,30 +31,38 @@ var onmessage = function (e) {
                     if (($('table input#uptolike_email').val() != '') && ($('table input.id_number').val() != '')) {
                         hashChange('#stat');
 
-                        $('#foreignAccess_field').show();
+                        //$('#foreignAccess_field').show();
+                        document.getElementById('foreignAccess_field').style.display = 'block';
                     }
 
                     console.log('foreignAccess');
                     break;
                 case 'ready':
                     console.log('ready');
-                    $('iframe#stats_iframe').show();
+                    document.getElementById('stats_iframe').style.display = 'block';
+                    //$('iframe#stats_iframe').show();
                     break;
                 case 'resize':
                     console.log('ready');
-                    $('iframe#stats_iframe').show();
-                    $('#key_auth_field').hide();
-                    $('#cryptkey_field').hide();
-                    $('#email_tr').hide();
-                    $('#after_key_req').hide();
+                    //$('iframe#stats_iframe').show();
+                    document.getElementById('stats_iframe').style.display = 'block';
+
+                    //$('#key_auth_field').hide();
+                    document.getElementById('key_auth_field').style.display = 'none';
+                    //$('#cryptkey_field').hide();
+                    document.getElementById('cryptkey_field').style.display = 'none';
+                    //$('#email_tr').hide();
+                    document.getElementById('email_tr').style.display = 'none';
+                    //$('#after_key_req').hide();
+                    document.getElementById('after_key_req').style.display = 'none';
                     break;
                 default:
                     console.log(e.data.action);
             }
 
-           // if (e.data.action == 'badCredentials') {
-           //     $('#bad_key_field').show();
-           // }
+            // if (e.data.action == 'badCredentials') {
+            //     $('#bad_key_field').show();
+            // }
 
 
 
@@ -88,18 +99,24 @@ function emailEntered(){
 
     //$('#uptolike_email_field').css('background-color', 'lightgray');
     //$('#uptolike_email_field').prop('disabled', 'disabled');
-    $('#get_key_btn_field').hide();
-    $('#after_key_req').show();
-    $('#before_key_req').hide();
-    $('#cryptkey_field').show();
-    $('#key_auth_field').show();
+    //$('#get_key_btn_field').hide();
+    document.getElementById('get_key_btn_field').style.display = 'none';
+    document.getElementById('after_key_req').style.display = 'block';
+    //$('#after_key_req').show();
+    //$('#before_key_req').hide();
+    document.getElementById('before_key_req').style.display = 'none';
+
+    //$('#cryptkey_field').show();
+    document.getElementById('cryptkey_field').style.display = 'block';
+    //$('#key_auth_field').show();
+    document.getElementById('key_auth_field').style.display = 'block';
 }
 
 function regMe(my_mail) {
     str = jQuery.param({ email: my_mail,
-                        partner: 'cms',
-                        projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
-                        url:document.location.host.replace( new RegExp("^www.","gim"),"")})
+        partner: 'cms',
+        projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
+        url:document.location.host.replace( new RegExp("^www.","gim"),"")})
     dataURL = "http://uptolike.com/api/getCryptKeyWithUserReg.json";
     jQuery.getJSON(dataURL + "?" + str + "&callback=?", {}, function (result) {
         var jsonString = JSON.stringify(result);
@@ -109,7 +126,7 @@ function regMe(my_mail) {
         } else if ('MAIL_SENDED' == result.statusCode) {
             alert('Ключ отправлен вам на email. Теперь необходимо ввести его в поле ниже.');
 
-        emailEntered();
+            emailEntered();
 
         } else if ('ILLEGAL_ARGUMENTS' == result.statusCode) {
             alert('Email указан неверно.')
@@ -165,6 +182,7 @@ jQuery(document).ready(function () {
     $('#uptolike_cryptkey').attr('value', $('table input.id_number').val());
 
     $('div.enter_block').hide();
+
     $('div.reg_block').hide();
 
     $('.reg_btn').click(function(){
@@ -181,7 +199,7 @@ jQuery(document).ready(function () {
         //my_email = $('.reg_block .uptolike_email').val();
         my_email = $('#uptolike_email_field').val();
         regMe(my_email);
-       // my_key = $('.enter_block input.id_number').val();
+        // my_key = $('.enter_block input.id_number').val();
         //$('table input.id_number').attr('value',my_key);
         $('table input#uptolike_email').attr('value',my_email);
         $('#settings_form').submit();
@@ -226,4 +244,3 @@ jQuery(document).ready(function () {
         });
 
 });
-

@@ -1,6 +1,7 @@
 <?php
 
 //widget_options.php
+//1.4.3
 class MySettingsPage
 {
 
@@ -151,7 +152,7 @@ class MySettingsPage
                         <div id="before_key_req">Введите ваш адрес электронной почты для получения ключа.</div>
                         <div id="after_key_req">На ваш адрес электронной почты отправлен секретный ключ. Введите его в поле ниже<br>
                             Если письмо с ключом долго не приходит, возможно оно попало в Спам.<br>
-                            Если ключ так и не был получен напишите письмо в службу поддержки:<a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a>
+                            Если ключ так и не был получен напишите письмо в службу поддержки: <a href="mailto:uptolikeshare@gmail.com">uptolikeshare@gmail.com</a>
                         </div>
 
 
@@ -170,7 +171,7 @@ class MySettingsPage
 
 
 
-                            </div>
+                    </div>
 
                     <div class="wrapper-tab" id="con_settings">
                         <div class="utl_left_block">
@@ -252,7 +253,7 @@ class MySettingsPage
             'Ключ(CryptKey)', // Title
             array($this, 'id_number_callback'), // Callback
             $this->settings_page_name, //'my-setting-admin', // Page
-            'setting_section_id' // Section           
+            'setting_section_id' // Section
         );
 
         add_settings_field(
@@ -263,14 +264,14 @@ class MySettingsPage
             'setting_section_id'
         );
 
-      /*  add_settings_field(
-            'on_main_static', //ID
-            'Располагать на главной странице в фиксированном блоке',
-            array($this, 'uptolike_on_main_static_callback'),
-            $this->settings_page_name, //'my-setting-admin',
-            'setting_section_id'
-        );
-        */
+        /*  add_settings_field(
+              'on_main_static', //ID
+              'Располагать на главной странице в фиксированном блоке',
+              array($this, 'uptolike_on_main_static_callback'),
+              $this->settings_page_name, //'my-setting-admin',
+              'setting_section_id'
+          );
+          */
         add_settings_field(
             'on_main', //ID
             'На главной странице ',
@@ -336,14 +337,14 @@ class MySettingsPage
         );
 
 
-       /* add_settings_field(
-            'feedback', //ID
-            'Обратная связь',
-            array($this, 'uptolike_feedback_callback'),
-            $this->settings_page_name, //'my-setting-admin',
-            'setting_section_id'
-        );
-*/
+        /* add_settings_field(
+             'feedback', //ID
+             'Обратная связь',
+             array($this, 'uptolike_feedback_callback'),
+             $this->settings_page_name, //'my-setting-admin',
+             'setting_section_id'
+         );
+ */
 
         add_settings_field(
             'uptolike_json', //ID
@@ -596,7 +597,7 @@ class MySettingsPage
     }
 
     public function uptolike_utl_language_callback()  {
-       // $top = $bottom = $both = $default = '';
+        // $top = $bottom = $both = $default = '';
         $ru = $en = $ua = $de = $es = $it = $pl = $lt = $default = '';
 
 
@@ -643,11 +644,14 @@ class MySettingsPage
 
 }
 
-function get_widget_code() {
+function get_widget_code($url='') {
     $options = get_option('my_option_name');
     $widget_code = $options['widget_code'];
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
-    if(is_single()) {        $url = get_permalink();} else $url = $protocol.$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    if ($url == ''){
+        if(is_single()) {        $url = get_permalink();} else $url = $protocol.$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    }
+
     $domain = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
     $domain = str_replace('-','',$domain);
     $data_pid = 'cms' . str_replace('.', '', $domain);
@@ -664,11 +668,10 @@ function get_widget_code() {
     return $widget_code;
 
 }
-
 function add_widget($content)
 {
 
-
+    //echo
     $options = get_option('my_option_name');
 
 
@@ -678,49 +681,49 @@ function add_widget($content)
     if (is_array($options) && (($widget_mode == 'plg') or ($widget_mode == 'both')) && array_key_exists('widget_code', $options)) {
 
 
-        $widget_code = get_widget_code();
+        //$widget_code = get_widget_code();
 
         if (is_page()) {//это страница
             if ($options['on_page'] == 1) {
                 switch ($options['widget_position']) {
                     case 'both':
-                        return $widget_code.$content.$widget_code;
+                        return get_widget_code().$content.get_widget_code();
                     case 'top':
-                        return $widget_code.$content;
+                        return get_widget_code().$content;
                     case 'bottom':
-                        return $content.$widget_code;
+                        return $content.get_widget_code();
                 }
             } else return $content;
         } elseif (is_archive()) {
             if ($options['on_archive'] == 1) {
                 switch ($options['widget_position']) {
                     case 'both':
-                        return $widget_code.$content.$widget_code;
+                        return get_widget_code(get_permalink()).$content.get_widget_code(get_permalink());
                     case 'top':
-                        return $widget_code.$content;
+                        return get_widget_code(get_permalink()).$content;
                     case 'bottom':
-                        return $content.$widget_code;
+                        return $content.get_widget_code(get_permalink());
                 }
             } else return $content;
         } elseif (is_front_page()) {
             if ($options['on_main'] == 1) {
                 switch ($options['widget_position']) {
                     case 'both':
-                        return $widget_code.$content.$widget_code;
+                        return get_widget_code(get_permalink()).$content.get_widget_code(get_permalink());
                     case 'top':
-                        return $widget_code.$content;
+                        return get_widget_code(get_permalink()).$content;
                     case 'bottom':
-                        return $content.$widget_code;
+                        return $content.get_widget_code(get_permalink());
                 }
             } else return $content;
         } else {
             switch ($options['widget_position']) {
                 case 'both':
-                    return $widget_code.$content.$widget_code;
+                    return get_widget_code().$content.get_widget_code();
                 case 'top':
-                    return $widget_code.$content;
+                    return get_widget_code().$content;
                 case 'bottom':
-                    return $content.$widget_code;
+                    return $content.get_widget_code();
             }
         };
 
@@ -877,29 +880,29 @@ function my_custom_menu_page(){
 
 function headeruptolike(){
 
-                $options = get_option('my_option_name');
-                if ($options['on_special_pages'] == 1) {
+    $options = get_option('my_option_name');
+    if ($options['on_special_pages'] == 1) {
 
-                    //echo 'run on spec pages';
-                    $in_content = array(0,1);
-                    $in_fixed_block = array(2,3,4,5);
-                    $curr_value = json_decode($options['uptolike_json'])->orientation;
-                    if (in_array($curr_value,$in_content)) {
-                        // echo 'in content';
-                    } elseif (in_array($curr_value,$in_fixed_block)){
+        //echo 'run on spec pages';
+        $in_content = array(0,1);
+        $in_fixed_block = array(2,3,4,5);
+        $curr_value = json_decode($options['uptolike_json'])->orientation;
+        if (in_array($curr_value,$in_content)) {
+            // echo 'in content';
+        } elseif (in_array($curr_value,$in_fixed_block)){
 
 
-                        if (is_page()) {//это страница
-                            if ($options['on_page'] == 1)    echo get_widget_code();
-                        } elseif (is_archive()) {
-                            if ($options['on_archive'] == 1)  echo get_widget_code();
-                        } elseif (is_front_page()) {
-                            if ($options['on_main'] == 1)  echo get_widget_code();
-                        } else { echo get_widget_code();
-                        };
-                        //echo 'in_fixed_block';
-                    }
-                }
+            if (is_page()) {//это страница
+                if ($options['on_page'] == 1)    echo get_widget_code();
+            } elseif (is_archive()) {
+                if ($options['on_archive'] == 1)  echo get_widget_code();
+            } elseif (is_front_page()) {
+                if ($options['on_main'] == 1)  echo get_widget_code();
+            } else { echo get_widget_code();
+            };
+            //echo 'in_fixed_block';
+        }
+    }
 
 
 
