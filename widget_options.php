@@ -1,7 +1,7 @@
 <?php
 
 //widget_options.php
-//1.4.3
+//1.4.4 11/08/15
 class MySettingsPage
 {
 
@@ -120,6 +120,7 @@ class MySettingsPage
         <style type="text/css">
             <?php include('uptolike_style.css')?>
         </style>
+	<div id="uptolike_site_url" style="display: none"><?php echo get_site_url();?></div>
         <div class="wrap">
             <h2 class="placeholder">&nbsp;</h2>
             <div id="wrapper">
@@ -652,9 +653,8 @@ function get_widget_code($url='') {
         if(is_single()) {        $url = get_permalink();} else $url = $protocol.$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     }
 
-    $domain = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']);
-    $domain = str_replace('-','',$domain);
-    $data_pid = 'cms' . str_replace('.', '', $domain);
+    $domain = preg_replace('/^www\./', '', get_site_url());
+    $data_pid = 'cms'.str_replace(array('https://','http://','.','-'),'',$domain);
 
     $widget_code = str_replace('data-pid="-1"','data-pid="' . $data_pid . '"',$widget_code);
     $widget_code = str_replace('data-pid=""','data-pid="' . $data_pid . '"',$widget_code);
@@ -812,8 +812,10 @@ function set_default_code()
     if (is_bool($options)) {
         $options = array();
     }
+    $domain = get_site_url();
+    $domain = str_replace(array('http://','https://','.','-','www.'),'',$domain);
     $data_url = 'cms' . $_SERVER['HTTP_HOST'];
-    $data_pid = 'cms' . str_replace('.', '', preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']));
+    $data_pid = 'cms'.$domain;
     $code = <<<EOD
 <script type="text/javascript">(function (w, doc) {
     if (!w.__utlWdgt) {

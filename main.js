@@ -1,4 +1,4 @@
-//1.4.3
+//1.4.4 11/08/15
 var onmessage = function (e) {
 
     if (e.data !== null && typeof e.data === 'object') {
@@ -22,7 +22,7 @@ var onmessage = function (e) {
                         //document.location.hash = "stat";
                         hashChange('#stat');
                         //$('#bad_key_field').show();
-                        document.getElementById('bad_key_field').style.display = 'block';
+                        document.getElementById('bad_key_field').style.display = 'table-row';
                         console.log('badCredentials');
                     }
 
@@ -32,14 +32,14 @@ var onmessage = function (e) {
                         hashChange('#stat');
 
                         //$('#foreignAccess_field').show();
-                        document.getElementById('foreignAccess_field').style.display = 'block';
+                        document.getElementById('foreignAccess_field').style.display = 'table-row';
                     }
 
                     console.log('foreignAccess');
                     break;
                 case 'ready':
                     console.log('ready');
-                    document.getElementById('stats_iframe').style.display = 'block';
+                    document.getElementById('stats_iframe').style.display = 'table-row';
                     //$('iframe#stats_iframe').show();
                     break;
                 case 'resize':
@@ -101,22 +101,23 @@ function emailEntered(){
     //$('#uptolike_email_field').prop('disabled', 'disabled');
     //$('#get_key_btn_field').hide();
     document.getElementById('get_key_btn_field').style.display = 'none';
-    document.getElementById('after_key_req').style.display = 'block';
+    document.getElementById('after_key_req').style.display = 'table-row';
     //$('#after_key_req').show();
     //$('#before_key_req').hide();
     document.getElementById('before_key_req').style.display = 'none';
 
     //$('#cryptkey_field').show();
-    document.getElementById('cryptkey_field').style.display = 'block';
+    document.getElementById('cryptkey_field').style.display = 'table-row';
     //$('#key_auth_field').show();
-    document.getElementById('key_auth_field').style.display = 'block';
+    document.getElementById('key_auth_field').style.display = 'table-row';
 }
 
 function regMe(my_mail) {
+    site_url = $('#uptolike_site_url').html().replace('http://','').replace('https://','');
     str = jQuery.param({ email: my_mail,
         partner: 'cms',
-        projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
-        url:document.location.host.replace( new RegExp("^www.","gim"),"")})
+        projectId: 'cms' + site_url.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
+        url:site_url.replace( new RegExp("^www.","gim"),"")})
     dataURL = "http://uptolike.com/api/getCryptKeyWithUserReg.json";
     jQuery.getJSON(dataURL + "?" + str + "&callback=?", {}, function (result) {
         var jsonString = JSON.stringify(result);
@@ -133,6 +134,7 @@ function regMe(my_mail) {
         }
     });
 }
+
 function hashChange(hsh) {
     //var hsh = ;
     if (('#stat' == hsh) || ('#cons' == hsh)) {

@@ -1,6 +1,6 @@
 <?php
 
-/* 1.4.3 */
+/* 1.4.4 11/08/15 */
 
 function constructorIframe($projectId, $partnerId, $mail, $cryptKey)
 {
@@ -60,6 +60,7 @@ function usb_admin_page()
     <style type="text/css">
         <?php include('uptolike_style.css')?>
     </style>
+    <div id="uptolike_site_url" style="display: none"><?php echo get_site_url();?></div>
     <div class="wrap">
         <h2 class="placeholder">&nbsp;</h2>
 
