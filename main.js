@@ -1,22 +1,81 @@
-/**
- * Created by root on 02.06.14.
- */
-
+//1.4.4 11/08/15
 var onmessage = function (e) {
-    if ('ready' == e.data.action ){
-        json = jQuery('input#uptolike_json').val();
-        initConstr(json);
-    }
-    if (('json' in e.data) && ('code' in e.data)) {
-        $('input#uptolike_json').val(e.data.json);
-        $('#widget_code').val(e.data.code);
-        jQuery('#settings_form').submit();
-    }
-    if (e.data.url.indexOf('constructor.html', 0) != -1) {
-        document.getElementById("cons_iframe").style.height = e.data.size + 'px';
-    }
-    if (e.data.url.indexOf('statistics.html', 0) != -1) {
-        document.getElementById("stats_iframe").style.height = e.data.size + 'px';
+
+    if (e.data !== null && typeof e.data === 'object') {
+        if ('ready' == e.data.action ){
+            json = jQuery('input#uptolike_json').val();
+            initConstr(json);
+        }
+        if (('json' in e.data) && ('code' in e.data)) {
+            $('input#uptolike_json').val(e.data.json);
+            $('#widget_code').val(e.data.code);
+            jQuery('#settings_form').submit();
+        }
+
+        //$('iframe#stats_iframe').hide();
+        //document.getElementById('stats_iframe').style.display = 'none';
+        if (e.data.url.indexOf('statistics.html', 0) != -1) {
+            switch (e.data.action) {
+                case 'badCredentials':
+                    //bad creds will show also when email and key is not entered yet
+                    if (($('table input#uptolike_email').val() != '') && ($('table input.id_number').val() != '')) {
+                        //document.location.hash = "stat";
+                        hashChange('#stat');
+                        //$('#bad_key_field').show();
+                        document.getElementById('bad_key_field').style.display = 'table-row';
+                        console.log('badCredentials');
+                    }
+
+                    break;
+                case 'foreignAccess':
+                    if (($('table input#uptolike_email').val() != '') && ($('table input.id_number').val() != '')) {
+                        hashChange('#stat');
+
+                        //$('#foreignAccess_field').show();
+                        document.getElementById('foreignAccess_field').style.display = 'table-row';
+                    }
+
+                    console.log('foreignAccess');
+                    break;
+                case 'ready':
+                    console.log('ready');
+                    document.getElementById('stats_iframe').style.display = 'table-row';
+                    //$('iframe#stats_iframe').show();
+                    break;
+                case 'resize':
+                    console.log('ready');
+                    //$('iframe#stats_iframe').show();
+                    document.getElementById('stats_iframe').style.display = 'block';
+
+                    //$('#key_auth_field').hide();
+                    document.getElementById('key_auth_field').style.display = 'none';
+                    //$('#cryptkey_field').hide();
+                    document.getElementById('cryptkey_field').style.display = 'none';
+                    //$('#email_tr').hide();
+                    document.getElementById('email_tr').style.display = 'none';
+                    //$('#after_key_req').hide();
+                    document.getElementById('after_key_req').style.display = 'none';
+                    break;
+                default:
+                    console.log(e.data.action);
+            }
+
+            // if (e.data.action == 'badCredentials') {
+            //     $('#bad_key_field').show();
+            // }
+
+
+
+        }
+
+        if ((e.data.url.indexOf('constructor.html', 0) != -1) && (typeof e.data.size != 'undefined')) {
+            if (e.data.size != 0) document.getElementById("cons_iframe").style.height = e.data.size + 'px';
+            //alert(e.data.size);
+        }
+        if ((e.data.url.indexOf('statistics.html', 0) != -1) && (typeof e.data.size != 'undefined')) {
+            if (e.data.size != 0)  document.getElementById("stats_iframe").style.height = e.data.size + 'px';
+        }
+
     }
 };
 
@@ -36,13 +95,29 @@ function initConstr(jsonStr) {
     }
 
 }
+function emailEntered(){
 
+    //$('#uptolike_email_field').css('background-color', 'lightgray');
+    //$('#uptolike_email_field').prop('disabled', 'disabled');
+    //$('#get_key_btn_field').hide();
+    document.getElementById('get_key_btn_field').style.display = 'none';
+    document.getElementById('after_key_req').style.display = 'table-row';
+    //$('#after_key_req').show();
+    //$('#before_key_req').hide();
+    document.getElementById('before_key_req').style.display = 'none';
+
+    //$('#cryptkey_field').show();
+    document.getElementById('cryptkey_field').style.display = 'table-row';
+    //$('#key_auth_field').show();
+    document.getElementById('key_auth_field').style.display = 'table-row';
+}
 
 function regMe(my_mail) {
+    site_url = $('#uptolike_site_url').html().replace('http://','').replace('https://','');
     str = jQuery.param({ email: my_mail,
-                        partner: 'cms',
-                        projectId: 'cms' + document.location.host.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
-                        url:document.location.host.replace( new RegExp("^www.","gim"),"")})
+        partner: 'cms',
+        projectId: 'cms' + site_url.replace( new RegExp("^www.","gim"),"").replace(/\-/g, '').replace(/\./g, ''),
+        url:site_url.replace( new RegExp("^www.","gim"),"")})
     dataURL = "http://uptolike.com/api/getCryptKeyWithUserReg.json";
     jQuery.getJSON(dataURL + "?" + str + "&callback=?", {}, function (result) {
         var jsonString = JSON.stringify(result);
@@ -51,10 +126,8 @@ function regMe(my_mail) {
             alert('Пользователь с таким email уже зарегистрирован, обратитесь в службу поддержки.');
         } else if ('MAIL_SENDED' == result.statusCode) {
             alert('Ключ отправлен вам на email. Теперь необходимо ввести его в поле ниже.');
-            $('.reg_block').toggle('fast');
-            $('.reg_btn').toggle('fast');
-            $('.enter_btn').toggle('fast');
-            $('.enter_block').toggle('fast');
+
+            emailEntered();
 
         } else if ('ILLEGAL_ARGUMENTS' == result.statusCode) {
             alert('Email указан неверно.')
@@ -62,42 +135,56 @@ function regMe(my_mail) {
     });
 }
 
-function hashChange(){
-    var hsh = document.location.hash
-    if (('#reg' == hsh) || ('#enter' == hsh)) {
+function hashChange(hsh) {
+    //var hsh = ;
+    if (('#stat' == hsh) || ('#cons' == hsh)) {
 
         $('.nav-tab-wrapper a').removeClass('nav-tab-active');
-        $('a.nav-tab#stat').addClass('nav-tab-active');
-        $('.wrapper-tab').removeClass('active');
-        $('#con_stat').addClass('active');
 
-        if ('#reg' == hsh) {
-            $('.reg_btn').show();
-            $('.reg_block').show();
-            $('.enter_btn').hide();
-            $('.enter_block').hide();
-        }
-        if ('#enter' == hsh) {
-            $('.reg_btn').hide();
-            $('.reg_block').hide();
-            $('.enter_btn').show();
-            $('.enter_block').show();
-        }
+        $('.wrapper-tab').removeClass('active');
+
+        $('#con_' + hsh.slice(1)).addClass('active');
+        $('a.nav-tab#' + hsh.slice(1)).addClass('nav-tab-active');
+        /*
+         /*if ('#reg' == hsh) {
+         $('.reg_btn').show();
+         $('.reg_block').show();
+         $('.enter_btn').hide();
+         $('.enter_block').hide();
+         }
+         if ('#enter' == hsh) {
+         $('.reg_btn').hide();
+         $('.reg_block').hide();
+         $('.enter_btn').show();
+         $('.enter_block').show();
+         }*/
     }
 }
 
 window.onhashchange = function() {
-    hashChange();
+    hashChange(document.location.hash);
 }
 
 jQuery(document).ready(function () {
     $ = jQuery;
 
-    $('input.id_number').css('width','520px');//TODO dafuq? fixit
+    if ($('table input#uptolike_email').val() != ''){
+        $('#uptolike_email_field').val($('table input#uptolike_email').val());
+        emailEntered();
+    }
+
+    if (($('table input#uptolike_email').val() != '') && ($('table input.id_number').val() == '')) {
+        //document.location.hash = "stat";
+        hashChange('#stat');
+
+    }
+
+    $('input.id_number').css('width','520px');//fix
     $('.uptolike_email').val($('#uptolike_email').val())//init fields with hidden value (server email)
-    $('.enter_block input.id_number').attr('value', $('table input.id_number').val());
+    $('#uptolike_cryptkey').attr('value', $('table input.id_number').val());
 
     $('div.enter_block').hide();
+
     $('div.reg_block').hide();
 
     $('.reg_btn').click(function(){
@@ -109,21 +196,27 @@ jQuery(document).ready(function () {
         $('.enter_block').toggle('fast');
         $('.reg_btn').toggle('fast');
     })
-
-    $('.reg_block button').click(function(){
-        my_email = $('.reg_block .uptolike_email').val();
+    //getkey
+    $('button#get_key').click(function(){
+        //my_email = $('.reg_block .uptolike_email').val();
+        my_email = $('#uptolike_email_field').val();
         regMe(my_email);
-    })
+        // my_key = $('.enter_block input.id_number').val();
+        //$('table input.id_number').attr('value',my_key);
+        $('table input#uptolike_email').attr('value',my_email);
+        $('#settings_form').submit();
 
-    $('.enter_block button').click(function(){
-        my_email = $('.enter_block input.uptolike_email').val();
-        my_key = $('.enter_block input.id_number').val();
+    })
+    //auth
+    $('button#auth').click(function(){
+        my_email = $('#uptolike_email_field').val();
+        my_key = $('#uptolike_cryptkey').val();
         $('table input.id_number').attr('value',my_key);
         $('table input#uptolike_email').attr('value',my_email);
         $('#settings_form').submit();
     })
 
-    //если юзер не зареган
+    //if unregged user
     if ($('.id_number').val() == '') {
         $('#uptolike_email').after('<button type="button" onclick="regMe();">Зарегистрироваться</button>');
         json = $('input#uptolike_json').val();
@@ -146,11 +239,10 @@ jQuery(document).ready(function () {
     });
 
     hashChange();
-    $.getScript( "http://uptolike.com/api/getsession.json" )
+    $.getScript( "https://uptolike.com/api/getsession.json" )
         .done(function( script, textStatus ) {
             $('iframe#cons_iframe').attr('src',$('iframe#cons_iframe').attr('data-src'));
             $('iframe#stats_iframe').attr('src',$('iframe#stats_iframe').attr('data-src'));
         });
 
 });
-
